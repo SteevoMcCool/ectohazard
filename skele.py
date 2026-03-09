@@ -1,3 +1,5 @@
+from pygame import * 
+
 #note- Vector2 represents pygames Vector2 class, im unable to import it rn
 
 class Wall:
@@ -34,3 +36,4 @@ class Camera:
         #TODO- shoots out a bunch of rays, from at different agled from the center, from  -fov to +fov 
         # renders the walls to the screen using the wall's color (we can account for the textures later)
         # this essentially displays a single "frame" of our game
+        pass
