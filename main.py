@@ -14,7 +14,7 @@ class Player:
         self.camera = Camera(Ray(Vector2(0,0),0),70)
         self.controller = Controller()
         self.speed = 100
-
+        self.area = 135
         self.controller.addBind(K_w,whileDown= lambda dt: self.move(0, 100*dt) )
         self.controller.addBind(K_s,whileDown= lambda dt: self.move(0,-100*dt))
 
@@ -24,6 +24,8 @@ class Player:
         self.camera.center.pos += Vector2(deltaX,deltaY)
 
 player = Player()
+
+areas = AreaLoader() 
 while running:
 
     for e in event.get():
@@ -35,8 +37,10 @@ while running:
             player.controller.process(e.dict.get('key'),clock.get_time(),"up")
     
     player.controller.step(dt) #controller's update step, must be called every frame
+    areas.loadAround(player.area)
+    
 
-    print(player.camera.center.pos)
+    player.camera.render()
     display.flip()
 
     dt = clock.tick(60) / 1000
