@@ -1,6 +1,8 @@
 from pygame import * 
 from skele import *
 from controller import * 
+
+from areaLoader import *
 init()
 screen = display.set_mode((1280, 720))
 clock =  time.Clock()

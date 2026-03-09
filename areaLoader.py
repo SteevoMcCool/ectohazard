@@ -9,7 +9,7 @@ class Area:
 
 
 MAPAREAWIDTH = 32
-class AreaContoller:
+class AreaLoader:
 
     def __init__(self):
         self.loadedAreas = {}
