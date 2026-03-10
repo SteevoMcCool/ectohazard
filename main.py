@@ -38,9 +38,9 @@ while running:
     
     player.controller.step(dt) #controller's update step, must be called every frame
     areas.loadAround(player.area)
-    
 
-    player.camera.render()
+
+    player.camera.render([])
     display.flip()
 
     dt = clock.tick(60) / 1000

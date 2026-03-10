@@ -5,7 +5,8 @@ from controller import *
 
 class Area:
     #TODO- must read from an .atxt file that has walls and other info
-    pass 
+    def __init__(self,id):
+        pass
 
 
 MAPAREAWIDTH = 32 #the amount of areas in a row of the total map There can be gaps/jumps
