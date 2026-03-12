@@ -1,5 +1,5 @@
 from pygame import * 
-from skele import *
+from wall_ray_camera import *
 from controller import * 
 
 

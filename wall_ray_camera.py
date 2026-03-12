@@ -1,15 +1,14 @@
-import math
+from math import *
 from pygame import *
 
 class Wall:
     def __init__(self, p1, p2):
         self.p1 = p1 
         self.p2 = p2   
-        self.render = None 
+        self.color = Color(127,127,127) 
 
-    def Render():
-        #TODO: Render the wall in 3d in realtime, not really sure how to approach that yet
-        pass
+
+        
 
 
         
@@ -19,7 +18,7 @@ class Ray:
         self.angle = angle 
 
         # Calculate the direction vector from the angle
-        self.dir = Vector2(math.cos(angle), math.sin(angle))
+        self.dir = Vector2(cos(angle), sin(angle))
         
     #
     def contact(self, wall: Wall):
@@ -68,12 +67,12 @@ class Ray:
         return closest_hit if closest_hit else False
     
 class Camera:
-    def __init__(self, center: Ray, fov: float, ray_count: int):
+    def __init__(self, center: Ray, fov: float, ray_count: int = 512):
         self.center = center 
         self.fov = fov 
         self.ray_count = ray_count # Number of rays to cast in the FOV
 
-    def render(self, walls: list[Wall]):
+    def view(self, walls: list[Wall]):
         """
         Shoots out rays across the FOV.
         Returns a list of (distance, wall) tuples for the 3D projection engine.
