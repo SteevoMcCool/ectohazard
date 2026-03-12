@@ -1,4 +1,3 @@
-# Allows the combination of several lists without copying
 class ListOfLists: 
     def __init__(self,*args):
         for arg in args:
