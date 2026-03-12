@@ -24,7 +24,7 @@ class Controller:
                 ]
             elif (action == 'up'):
                 if bind.get("up"):
-                    bind.up(time - self.activePresses[press].time)
+                    bind.up(time - self.activePresses[press][0])
                 del self.activePresses[press]
         else:
             return False 
