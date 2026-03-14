@@ -1,15 +1,20 @@
 from pygame import * 
 from wall_ray_camera import *
 from controller import * 
+MAPAREAWIDTH = 32 #the amount of areas in a row of the total map There can be gaps/jumps
 
+AREAINNERSIZE = [64,64] #the size of a single area
 
 class Area:
     #TODO- must read from an .atxt file that has walls and other info
     def __init__(self,id):
         pass
 
+    def unload(self,id):
+        pass #write it back to file
 
-MAPAREAWIDTH = 32 #the amount of areas in a row of the total map There can be gaps/jumps
+
+
 """ 
 so, the map looks like: 
 
@@ -39,12 +44,19 @@ class AreaLoader:
         left = max(center - 1,0) % MAPAREAWIDTH 
         right = min(center + 1,MAPAREAWIDTH-1) % MAPAREAWIDTH
         numLoads = 0
+
+        loadedIds = []
         for row in range(above,below+1,32):
             for col in range(left,right+1):
                 id= row + col 
+                loadedIds += [id]
                 if  not self.loadedAreas.get(id):
                     self.loadedAreas[id] = Area(id)
                     numLoads += 1
+        if (numLoads > 0): #then we unload old areas
+            for id in self.loadedAreas:
+                if id not in loadedIds:
+                    del self.loadedAreas[id] 
         self.currentCenter = center
         return numLoads # for debugging reasons, return number of newly loaded areas
 

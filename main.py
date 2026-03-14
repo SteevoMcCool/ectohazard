@@ -24,11 +24,11 @@ class Player:
     def turn(self,deltaAngle):
         self.camera.center.angle =  (self.camera.center.angle  + deltaAngle) % (6.28318)
 
-A,B = 0,0
+A,B = 2.2,0.01
 player = Player()
 areas = AreaLoader() 
 
-
+HORIZON =0.575 #increasing this value makes us look taller
 while running:
 
     for e in event.get():
@@ -46,7 +46,7 @@ while running:
     player.camera.ray_count = winSize[0]
     screenHeight = winSize[1]
     screen.fill(Color(100,220,100))
-    screen.fill(Color(60,120,240),Rect(0,0,winSize[0],winSize[1]/2))
+    screen.fill(Color(60,120,240),Rect(0,0,winSize[0],winSize[1] * HORIZON))
     view = player.camera.view([
         Wall(Vector2(20,-20),Vector2(20.1,20.1)),
         Wall(Vector2(-20,-20),Vector2(-20.1,20.1)),
@@ -60,9 +60,10 @@ while running:
             wall:Wall  = pixRow[1]
             wallSize = screenHeight * (1 + A) / (dist + B)
             draw.line(display.get_surface(),wall.color,
-                Vector2(x,screenHeight/2 + wallSize/2),
-                Vector2(x,screenHeight/2 - wallSize/2)           
+                Vector2(x,screenHeight * HORIZON + wallSize/2),
+                Vector2(x,screenHeight * HORIZON - wallSize/2)           
             )
+    
 
     
     display.flip()
