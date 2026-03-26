@@ -24,7 +24,7 @@ class Player:
     def turn(self,deltaAngle):
         self.camera.center.angle =  (self.camera.center.angle  + deltaAngle) % (6.28318)
 
-A,B = 2.2,0.01
+A,B = 2.2,0.0001
 player = Player()
 areas = AreaLoader() 
 

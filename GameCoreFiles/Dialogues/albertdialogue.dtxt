@@ -1,0 +1,7 @@
+1 "Hello, my name is Albert! I am sort of the leader around here."
+    opt1 "Ok"  2
+
+2 "Anyways, now's a good time to get familiar with all this new equipment i made for you"
+    opt1 "Ok" 3
+    opt1 "Can you restart?" 1
+    
