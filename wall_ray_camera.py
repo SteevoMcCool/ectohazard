@@ -101,13 +101,15 @@ class Ray:
                     closest_hit = (wall, hit)
         return closest_hit if closest_hit else False
     
+    def entityContacts(self,entities:list[Wall],maxDistance=inf):
+        pass
 class Camera:
     def __init__(self, center: Ray, fov: float, ray_count: int = 512):
         self.center = center 
         self.fov = fov 
         self.ray_count = ray_count # Number of rays to cast in the FOV
 
-    def view(self, walls: list[Wall]):
+    def view(self, walls: list[Wall], entities: list[Entity]):
         """
         Shoots out rays across the FOV.
         Returns a list of (distance, wall) tuples for the 3D projection engine.
