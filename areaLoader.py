@@ -4,46 +4,69 @@ from controller import *
 import os
 MAPAREAWIDTH = 32 #the amount of areas in a row of the total map There can be gaps/jumps
 
+
 AREAINNERSIZE = [64,64] #the size of a single area
+
+DEFAULTSKYCOLOR = Color(60,120,240)
+
+DEFAULTGROUNDCOLOR = Color(100,220,100)
+
+PATH_TO_AREAS = "./GameCoreFiles/Areas"
 
 class Area:
     def __init__(self,id):
-        self.walls = "INITIALIZE"
-        self.entities = "INITIALIZE"
+        self.walls = []
+        self.entities = []
         self.id = id
         self.name = ''
-        self.wall = []
+        self.walls = []
+        self.sky = DEFAULTSKYCOLOR
+        self.ground = DEFAULTGROUNDCOLOR
         self.entities = []
-        filename = f"area{id}.atxt"
+        filename = f"{PATH_TO_AREAS}/area{id}.atxt"
+
+
+        self.uninitialized = False
         if not os.path.exists(filename):
-            print(f"File {filename} is not found")
+            self.uninitialized = True
+            return None
 
         with open(filename, 'r') as f:
             lines = f.readlines()
             self.name = lines[0]
 
             for line in lines[1:]:
-                tokens = line.strip().split()
+                tokens = line.strip().split(",")
                 match(tokens[0]):
 
                     case "Sky":
-                        self.sky = tokens[1]
+                        self.sky =  Color(*(int(c) for c in tokens[1].strip().split(" ")))
 
                     case "Ground":
-                        self.ground =  tokens[1]
+                        self.ground =  Color(*(int(c) for c in tokens[1].strip().split(" ")))
 
                     case "Wall":
-                        self.wall_color = tokens[1]
-                        self.wall.append(tokens[2:])
+                        self.walls += [Wall(
+                            Vector2(*(float(coord) for coord in tokens[2].strip().split(" "))),
+                            Vector2(*(float(coord) for coord in tokens[3].strip().split(" "))),
+                            Color(*(int(c) for c  in tokens[1].strip().split(" ")))
+                        )]
+                        print(  Vector2(*(float(coord) for coord in tokens[2].strip().split(" "))),
+                            Vector2(*(float(coord) for coord in tokens[3].strip().split(" "))),
+                            tokens[1].strip().split(" "))
+                        print("ADDED WALL")
 
                     #Parse Entity property
                     case "Entity":
                         for name in tokens[1:]:
                             self.entities.append(name)
+ 
                     case _:
-                        raise Exception(f"Error while parsing the file unknown property : {tokens[0]}")
+                        if len(tokens) > 0:
+                            if (tokens[0][0] == "#"):
+                                continue
+                            raise Exception(f"Error while parsing the file unknown property : {tokens[0]}")
         
-
 
 """ 
 so, the map looks like: 
@@ -81,8 +104,10 @@ class AreaLoader:
                 id= row + col 
                 loadedIds += [id]
                 if  not self.loadedAreas.get(id):
-                    self.loadedAreas[id] = Area(id)
-                    numLoads += 1
+                    area = Area(id)
+                    if not area.uninitialized:
+                        self.loadedAreas[id] = area
+                        numLoads += 1
         if (numLoads > 0): #then we unload old areas
             for id in self.loadedAreas:
                 if id not in loadedIds:

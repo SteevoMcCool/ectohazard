@@ -1,11 +1,12 @@
 from math import *
 from pygame import *
+from entity import *
 
 class Wall:
-    def __init__(self, p1, p2):
+    def __init__(self, p1, p2,color = Color(127,127,127) ):
         self.p1 = p1 
         self.p2 = p2   
-        self.color = Color(127,127,127) 
+        self.color = color
 
 
         
@@ -133,5 +134,4 @@ class Camera:
             else:
                 view_data.append(False)
         
-        print("Num hits: ", hits)
         return view_data

@@ -11,21 +11,21 @@ dt = 0
 
 class Player: 
     def __init__(self):
-        self.camera = Camera(Ray(Vector2(0,0),0),1)
+        self.camera = Camera(Ray(Vector2(32,32),0),1)
         self.controller = Controller()
         self.speed = 10
-        self.area = 135
+        self.area = 1
         self.controller.addBind(K_w,whileDown= lambda dt: self.move(dt*self.speed* self.camera.center.lookVector()))
         self.controller.addBind(K_s,whileDown= lambda dt: self.move(-dt*self.speed* self.camera.center.lookVector()))
 
-        self.controller.addBind(K_d,whileDown= lambda dt: self.turn(0.85* dt) )
+        self.controller.addBind(K_d,whileDown= lambda dt: self.turn(0.85*  dt))
         self.controller.addBind(K_a,whileDown= lambda dt: self.turn(0.85* -dt))
     def move(self,deltaPos):
         self.camera.center.pos += deltaPos
     def turn(self,deltaAngle):
         self.camera.center.angle =  (self.camera.center.angle  + deltaAngle) % (6.28318)
 
-A,B = 2.2,0.0001
+A,B = 2.5,0.00000000000001
 player = Player()
 areas = AreaLoader() 
 
@@ -42,18 +42,21 @@ while running:
     
     player.controller.step(dt) #controller's update step, must be called every frame
     
-    areas.loadAround(player.area)
+    if  (areas.loadAround(player.area)):
+        print("Loaded new area")
     walls  = ListOfLists(area.walls for area in areas.loadedAreas.values())
-    entities  = ListOfLists(area.entities for area in areas.loadedAreas.values())
+    entities  = [] #ListOfLists(area.entities for area in areas.loadedAreas.values())
     centerArea = areas.loadedAreas[areas.currentCenter]
 
     winSize = display.get_window_size()
     player.camera.ray_count = winSize[0]
     screenHeight = winSize[1]
-    screen.fill(centerArea.sky)
+
+
     screen.fill(centerArea.ground)
-    view = player.camera.view(wall,entities)
-    print(player.camera.center.pos, player.camera.center.angle)
+    screen.fill(centerArea.sky,Rect(0,0,winSize[0],winSize[1] * HORIZON))
+    view = player.camera.view(walls,entities)
+    # print(player.camera.center.pos, player.camera.center.angle)
     for (x,pixRow) in zip(range(len(view)), view):
         if (pixRow):
             dist:float = pixRow [0]

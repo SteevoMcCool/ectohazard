@@ -1,9 +1,10 @@
 class ListOfLists: 
-    def __init__(self,*args):
+    def __init__(self,args):
+        self.lists = []
         for arg in args:
+            self.lists += [arg]
             assert(type(arg) == list)
-        self.lists = [arg for arg in args]
-    
+
     def __len__(self):
         return sum(len(L) for L in self.lists)
 
