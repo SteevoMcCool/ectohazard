@@ -1,9 +1,9 @@
 Homebase
-Sky 217 190 169
-Ground 112 73 42 
-Wall 212 142 85, 0 0, 64 0
-Wall 212 142 85, 64 0, 64 64
-Wall 212 142 85, 64 64, 0 64
-Wall 212 142 85, 0 64, 0 0 
+Sky, 217 190 169
+Ground, 112 73 42 
+Wall, 212 142 85, 0 0, 64 0
+Wall, 212 142 85, 64 0, 64 64
+Wall, 212 142 85, 64 64, 0 64
+Wall, 212 142 85, 0 64, 0 0 
 
-Entity 'albert.etxt'
+Entity, 'albert.etxt'

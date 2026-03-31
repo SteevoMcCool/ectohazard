@@ -1,18 +1,48 @@
 from pygame import * 
 from wall_ray_camera import *
 from controller import * 
+import os
 MAPAREAWIDTH = 32 #the amount of areas in a row of the total map There can be gaps/jumps
 
 AREAINNERSIZE = [64,64] #the size of a single area
 
 class Area:
-    #TODO- must read from an .atxt file that has walls and other info
     def __init__(self,id):
-        pass
+        self.walls = "INITIALIZE"
+        self.entities = "INITIALIZE"
+        self.id = id
+        self.name = ''
+        self.wall = []
+        self.entities = []
+        filename = f"area{id}.atxt"
+        if not os.path.exists(filename):
+            print(f"File {filename} is not found")
 
-    def unload(self,id):
-        pass #write it back to file
+        with open(filename, 'r') as f:
+            lines = f.readlines()
+            self.name = lines[0]
 
+            for line in lines[1:]:
+                tokens = line.strip().split()
+                match(tokens[0]):
+
+                    case "Sky":
+                        self.sky = tokens[1]
+
+                    case "Ground":
+                        self.ground =  tokens[1]
+
+                    case "Wall":
+                        self.wall_color = tokens[1]
+                        self.wall.append(tokens[2:])
+
+                    #Parse Entity property
+                    case "Entity":
+                        for name in tokens[1:]:
+                            self.entities.append(name)
+                    case _:
+                        raise Exception(f"Error while parsing the file unknown property : {tokens[0]}")
+        
 
 
 """ 

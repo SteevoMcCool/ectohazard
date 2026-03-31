@@ -2,6 +2,7 @@ from pygame import *
 from wall_ray_camera import *
 from controller import * 
 from areaLoader import *
+from listOfLists import *
 init()
 screen = display.set_mode((1280, 720))
 clock =  time.Clock()
@@ -40,19 +41,18 @@ while running:
             player.controller.process(e.dict.get('key'),clock.get_time(),"up")
     
     player.controller.step(dt) #controller's update step, must be called every frame
+    
     areas.loadAround(player.area)
+    walls  = ListOfLists(area.walls for area in areas.loadedAreas.values())
+    entities  = ListOfLists(area.entities for area in areas.loadedAreas.values())
+    centerArea = areas.loadedAreas[areas.currentCenter]
 
     winSize = display.get_window_size()
     player.camera.ray_count = winSize[0]
     screenHeight = winSize[1]
-    screen.fill(Color(100,220,100))
-    screen.fill(Color(60,120,240),Rect(0,0,winSize[0],winSize[1] * HORIZON))
-    view = player.camera.view([
-        Wall(Vector2(20,-20),Vector2(20.1,20.1)),
-        Wall(Vector2(-20,-20),Vector2(-20.1,20.1)),
-        Wall(Vector2(-20,20),Vector2(20.1,20.1)),
-        Wall(Vector2(-20,-20),Vector2(20.1,-20.1)),
-    ])
+    screen.fill(centerArea.sky)
+    screen.fill(centerArea.ground)
+    view = player.camera.view(wall,entities)
     print(player.camera.center.pos, player.camera.center.angle)
     for (x,pixRow) in zip(range(len(view)), view):
         if (pixRow):
