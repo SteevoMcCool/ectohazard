@@ -88,6 +88,8 @@ class Ray:
 
         return Vector2(X, Y)
 
+    def shift(self,units):
+        self.pos += Vector2(units*cos(self.angle),units*sin(self.angle))
     def firstContact(self, walls: list[Wall]):
         """Returns the closest wall hit by the ray and the contact point."""
         closest_hit = None
@@ -102,8 +104,24 @@ class Ray:
                     closest_hit = (wall, hit)
         return closest_hit if closest_hit else False
     
-    def entityContacts(self,entities:list[Wall],maxDistance=inf):
-        pass
+    def entityContacts(self,entities:list[Entity],maxDistance=inf):
+        "Returns a list of pairs of entity, contactpoint for all entities hit by the ray before the distance"
+        hits = []
+        for entity in entities:
+            normRay = Ray(entity.pos,self.angle+pi/2)
+            normRay.shift(-2)
+            p1 = normRay.pos
+            normRay.shift(2)
+            p2 = normRay.pos
+            cont = self.contact(Wall(p1,p2))
+            if (cont):
+                dist = (cont - self.pos).magnitude
+                if (dist > maxDistance):
+                    continue
+                else:
+                    hits.append((entity,self.pos,))
+        return hits 
+
 class Camera:
     def __init__(self, center: Ray, fov: float, ray_count: int = 512):
         self.center = center 
