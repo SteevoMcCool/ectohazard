@@ -8,7 +8,7 @@ class Entity:
         self.texture = image.load(imgfile)
         self.textureSize = texture.get_size() #i think this is a tuple (x,y)   NOT a vector
 
-
+            
     def loadFromFile(fileName:str) :
         """
             Loads an entity from a file. Returns an entity.
