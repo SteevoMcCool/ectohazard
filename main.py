@@ -55,7 +55,7 @@ while running:
 
     screen.fill(centerArea.ground)
     screen.fill(centerArea.sky,Rect(0,0,winSize[0],winSize[1] * HORIZON))
-    view = player.camera.view(walls,entities)
+    (view,entview) = player.camera.view(walls,entities)
     # print(player.camera.center.pos, player.camera.center.angle)
     for (x,pixRow) in zip(range(len(view)), view):
         if (pixRow):

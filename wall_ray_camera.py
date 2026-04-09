@@ -105,13 +105,13 @@ class Ray:
         return closest_hit if closest_hit else False
     
     def entityContacts(self,entities:list[Entity],maxDistance=inf):
-        "Returns a list of pairs of entity, contactpoint for all entities hit by the ray before the distance"
+        "Returns a list of trio of Entity entity, float distance, float texturepoint for all entities hit by the ray before the distance"
         hits = []
         for entity in entities:
             normRay = Ray(entity.pos,self.angle+pi/2)
-            normRay.shift(-2)
+            normRay.shift(-entity.radius)
             p1 = normRay.pos
-            normRay.shift(2)
+            normRay.shift(2*entity.radius)
             p2 = normRay.pos
             cont = self.contact(Wall(p1,p2))
             if (cont):
@@ -119,7 +119,8 @@ class Ray:
                 if (dist > maxDistance):
                     continue
                 else:
-                    hits.append((entity,self.pos,))
+                    tp = (normRay.pos - cont).magnitude / (2*entity.radius)
+                    hits.append((entity,dist,tp))
         return hits 
 
 class Camera:
@@ -131,9 +132,12 @@ class Camera:
     def view(self, walls: list[Wall], entities: list[Entity]):
         """
         Shoots out rays across the FOV.
-        Returns a list of (distance, wall) tuples for the 3D projection engine.
+        Returns a tuple of 2 lists 
+            First is list of (distance, wall)|false tuples for the 3D projection engine.
+            Second is list of list of (entity,distance,tp)
         """
         view_data = []
+        entityHits = []
         angle_step = self.fov / self.ray_count
         start_angle = self.center.angle - (self.fov / 2)
         
@@ -144,12 +148,15 @@ class Camera:
             ray = Ray(self.center.pos, ray_angle)
             
             hit = ray.firstContact(walls)
+            mdist=inf
             if hit:
                 wall, point = hit
                 dist = self.center.pos.distance_to(point)
                 view_data.append((dist, wall))
                 hits+=1
+                mdist = dist 
             else:
                 view_data.append(False)
+            entityHits.append(ray.entityContacts(entities,mdist))
         
-        return view_data
+        return (view_data,entityHits)
