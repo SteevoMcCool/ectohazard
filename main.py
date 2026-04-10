@@ -55,9 +55,9 @@ while running:
 
     screen.fill(centerArea.ground)
     screen.fill(centerArea.sky,Rect(0,0,winSize[0],winSize[1] * HORIZON))
-    view = player.camera.view(walls,entities)
+    (view,entview) = player.camera.view(walls,entities)
     # print(player.camera.center.pos, player.camera.center.angle)
-    for (x,pixRow) in zip(range(len(view)), view):
+    for (x,pixRow,ents) in zip(range(len(view)), view,entview):
         if (pixRow):
             dist:float = pixRow [0]
             wall:Wall  = pixRow[1]
@@ -66,7 +66,8 @@ while running:
                 Vector2(x,screenHeight * HORIZON + wallSize/2),
                 Vector2(x,screenHeight * HORIZON - wallSize/2)           
             )
-    
+        for (entity,dist,texpos) in ents:
+            pass
 
     
     display.flip()
