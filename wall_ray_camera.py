@@ -119,7 +119,7 @@ class Ray:
                 if (dist > maxDistance):
                     continue
                 else:
-                    hits.append((entity,self.pos,))
+                    hits.append((entity,self.pos,(self.pos - cont)))
         return hits 
 
 class Camera:
