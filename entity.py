@@ -1,5 +1,5 @@
 from pygame import * 
-
+import os
 class Entity:
 
     # Albert                0
@@ -13,7 +13,7 @@ class Entity:
         with open(filename, 'r') as f:
             line_table = f.readlines()
             length = len(line_table)
-            if length != 7:
+            if length != 8:
                 raise Exception("File format not supported (refer to README.md)")
             
             for i in range(length):
@@ -31,8 +31,9 @@ class Entity:
                         self.defc = int(sub_tokens[1].strip())
                         self.atk = int(sub_tokens[2].strip())
                     case 3:
+                        #broken
                         sub_tokens = line.split('/')
-                        self.pos = tuple(map(int, sub_tokens[0].strip("()").split(","))) 
+                        self.pos = tuple(map(lambda x: int(x.strip), sub_tokens[0].strip("()").split(","))) 
                         self.radius = sub_tokens[1].strip().strip("()")
 
                     case 4:
@@ -44,6 +45,8 @@ class Entity:
                         self.dialog_file = line.strip()
                     case 6:
                         self.dialog_lines = line.strip()
+                    case 7:
+                        self.texture = image.load(os.path.join('GameCoreFiles\Textures', 'bla.png'))
                     case _:
                         raise Exception("File format is unsuported (refer to README.md)")
         

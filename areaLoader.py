@@ -2,6 +2,7 @@ from pygame import *
 from wall_ray_camera import *
 from controller import * 
 import os
+from entity import *
 MAPAREAWIDTH = 32 #the amount of areas in a row of the total map There can be gaps/jumps
 
 
@@ -58,8 +59,8 @@ class Area:
 
                     #Parse Entity property
                     case "Entity":
-                        for name in tokens[1:]:
-                            self.entities.append(name)
+                        for fname in tokens[1:]:
+                            self.entities.append(Entity(os.path.join("GameCoreFiles\Entities",fname)))
  
                     case _:
                         if len(tokens) > 0:

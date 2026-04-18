@@ -137,12 +137,13 @@ class Camera:
         angle_step = self.fov / self.ray_count
         start_angle = self.center.angle - (self.fov / 2)
         
-        
+        entview_data = []
         hits = 0
         for i in range(self.ray_count):
             ray_angle = start_angle + (i * angle_step)
             ray = Ray(self.center.pos, ray_angle)
-            
+
+            dist = 99999
             hit = ray.firstContact(walls)
             if hit:
                 wall, point = hit
@@ -151,5 +152,6 @@ class Camera:
                 hits+=1
             else:
                 view_data.append(False)
-        
-        return view_data
+            entview_data.append(ray.entityContacts(entities,dist))
+
+        return view_data,entview_data
