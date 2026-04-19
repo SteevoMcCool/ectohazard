@@ -55,7 +55,7 @@ class Area:
                             Vector2(*(float(coord) for coord in tokens[3].strip().split(" "))),
                             Color(*(int(c) for c  in tokens[1].strip().split(" ")))
                         )]
-                        print(  Vector2(*(float(coord) for coord in tokens[2].strip().split(" "))),
+                        print(Vector2(*(float(coord) for coord in tokens[2].strip().split(" "))),
                             Vector2(*(float(coord) for coord in tokens[3].strip().split(" "))),
                             tokens[1].strip().split(" "))
                         print("ADDED WALL")
