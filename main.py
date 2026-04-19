@@ -62,7 +62,7 @@ class GameApp:
 
     def run(self):
         """Main application loop"""
-        A, B = 2.5, 0.00000000000001
+        A, B = 2.5, 0.0001
         HORIZON = 0.575
 
         while self.process_running:

@@ -31,6 +31,7 @@ class PauseMenu:
 
         self.menu.add.button('Resume', self._on_resume)
         self.menu.add.button('Main Menu', self._on_return_main)
+        self.menu.add.button('Save', self._on_save)
         self.menu.add.button('Quit', pygame_menu.events.EXIT)
         self.menu.disable()
 
@@ -43,3 +44,13 @@ class PauseMenu:
 
         # Re-enable MainMenu so it's ready when we loop back
         self.game.main.menu.enable()
+
+    def _on_save(self):
+        # TODO: IMPLEMENT THE SAVE LOGIC
+        return
+
+
+# TODO: IMPLEMENT THE SAVE MENU
+class SaveMenu:
+    def __init__(self):
+        pass
