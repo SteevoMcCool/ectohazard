@@ -1,77 +1,106 @@
-from pygame import * 
-from wall_ray_camera import *
-from controller import * 
-from areaLoader import *
-from listOfLists import *
-init()
-screen = display.set_mode((1280, 720))
-clock =  time.Clock()
-running = True
-dt = 0
+import pygame
+from pygame import *
 
-class Player: 
+from player import Player
+from areaLoader import AreaLoader
+from listOfLists import ListOfLists
+from menu import MainMenu, PauseMenu
+
+class GameApp:
+
     def __init__(self):
-        self.camera = Camera(Ray(Vector2(32,32),0),1)
-        self.controller = Controller()
-        self.speed = 10
-        self.area = 1
-        self.controller.addBind(K_w,whileDown= lambda dt: self.move(dt*self.speed* self.camera.center.lookVector()))
-        self.controller.addBind(K_s,whileDown= lambda dt: self.move(-dt*self.speed* self.camera.center.lookVector()))
+        init()
 
-        self.controller.addBind(K_d,whileDown= lambda dt: self.turn(0.85*  dt))
-        self.controller.addBind(K_a,whileDown= lambda dt: self.turn(0.85* -dt))
-    def move(self,deltaPos):
-        self.camera.center.pos += deltaPos
-    def turn(self,deltaAngle):
-        self.camera.center.angle =  (self.camera.center.angle  + deltaAngle) % (6.28318)
+        self.screen = display.set_mode((1280, 720))
+        display.set_caption("Ectohazard")
+        self.clock = time.Clock()
+        
+        self.process_running = True
+        self.game_running = False
+        self.dt = 0
 
-A,B = 2.5,0.00000000000001
-player = Player()
-areas = AreaLoader() 
+        self.player = Player()
+        self.areas = AreaLoader()
+        
+        self.main = MainMenu(self)
+        self.pause = PauseMenu(self)
 
-HORIZON =0.575 #increasing this value makes us look taller
-while running:
+        # Bind ESC key to open pause menu
+        self.player.controller.addBind(K_ESCAPE, down=lambda z: self.pause.menu.enable())
 
-    for e in event.get():
-        if e.type == QUIT:
-            running = False
-        elif e.type == KEYDOWN:
-            player.controller.process(e.dict.get('key'),clock.get_time(),"down")
-        elif e.type == KEYUP:
-            player.controller.process(e.dict.get('key'),clock.get_time(),"up")
-    
-    player.controller.step(dt) #controller's update step, must be called every frame
-    
-    if  (areas.loadAround(player.area)):
-        print("Loaded new area")
-    walls  = ListOfLists(area.walls for area in areas.loadedAreas.values())
-    entities  = [] #ListOfLists(area.entities for area in areas.loadedAreas.values())
-    centerArea = areas.loadedAreas[areas.currentCenter]
+    def render_game(self, A, B, HORIZON):
+        """Handle 3D rendering and world updates"""
+        self.player.controller.step(self.dt)
 
-    winSize = display.get_window_size()
-    player.camera.ray_count = winSize[0]
-    screenHeight = winSize[1]
+        if self.areas.loadAround(self.player.area):
+            print("Loaded new area")
 
+        walls = ListOfLists(area.walls for area in self.areas.loadedAreas.values())
+        entities = [] 
+        centerArea = self.areas.loadedAreas[self.areas.currentCenter]
 
-    screen.fill(centerArea.ground)
-    screen.fill(centerArea.sky,Rect(0,0,winSize[0],winSize[1] * HORIZON))
-    (view,entview) = player.camera.view(walls,entities)
-    # print(player.camera.center.pos, player.camera.center.angle)
-    for (x,pixRow,ents) in zip(range(len(view)), view,entview):
-        if (pixRow):
-            dist:float = pixRow [0]
-            wall:Wall  = pixRow[1]
-            wallSize = screenHeight * (1 + A) / (dist + B)
-            draw.line(display.get_surface(),wall.color,
-                Vector2(x,screenHeight * HORIZON + wallSize/2),
-                Vector2(x,screenHeight * HORIZON - wallSize/2)           
-            )
-        for (entity,dist,texpos) in ents:
-            pass
+        winSize = display.get_window_size()
+        screenHeight = winSize[1]
+        self.player.camera.ray_count = winSize[0]
 
-    
-    display.flip()
-    dt = clock.tick(60) / 1000
+        # Draw floor and sky
+        self.screen.fill(centerArea.ground)
+        self.screen.fill(centerArea.sky, Rect(0, 0, winSize[0], winSize[1] * HORIZON))
 
+        view, entview = self.player.camera.view(walls, entities)
 
-quit()
+        # Render wall columns
+        for x, pixRow, ents in zip(range(len(view)), view, entview):
+            if pixRow:
+                dist, wall = pixRow[0], pixRow[1]
+                wallSize = screenHeight * (1 + A) / (dist + B)
+                
+                draw.line(self.screen, wall.color,
+                    Vector2(x, screenHeight * HORIZON + wallSize/2),
+                    Vector2(x, screenHeight * HORIZON - wallSize/2)
+                )
+
+    def run(self):
+        """Main application loop"""
+        A, B = 2.5, 0.0001
+        HORIZON = 0.575
+
+        while self.process_running:
+            events = event.get()
+            
+            for e in events:
+                if e.type == QUIT:
+                    self.process_running = False
+                
+                # Player inputs only if game is active and not paused
+                if self.game_running and not self.pause.menu.is_enabled():
+                    if e.type == KEYDOWN:
+                        self.player.controller.process(e.key, time.get_ticks(), "down")
+                    elif e.type == KEYUP:
+                        self.player.controller.process(e.key, time.get_ticks(), "up")
+
+            # --- Safe State Management ---
+            if not self.game_running:
+                # Check if main menu is enabled (Redundancy here is crucial do not simplify !)
+                if self.main.menu.is_enabled():
+                    self.main.menu.update(events)
+                if self.main.menu.is_enabled():
+                    self.main.menu.draw(self.screen)
+            else:
+                # Game is running
+                self.render_game(A, B, HORIZON)
+
+                # Check if pause menu is enabled (Redundancy here is crucial do not simplify !)
+                if self.pause.menu.is_enabled():
+                    self.pause.menu.update(events)
+                if self.pause.menu.is_enabled():
+                    self.pause.menu.draw(self.screen)
+
+            display.flip()
+            self.dt = self.clock.tick(60) / 100
+
+        quit()
+
+if __name__ == "__main__":
+    app = GameApp()
+    app.run()

@@ -1,5 +1,9 @@
-from pygame import * 
 import os
+
+from gamepaths import *
+from pygame import * 
+
+
 class Entity:
 
     # Albert                0
@@ -9,6 +13,7 @@ class Entity:
     # [] list of status     4 strings 
     # albertdialogue.dtxt   5
     # 1                     6
+    # texture.png           7
     def __init__(self, filename):
         with open(filename, 'r') as f:
             line_table = f.readlines()
@@ -31,6 +36,9 @@ class Entity:
                         self.defc = int(sub_tokens[1].strip())
                         self.atk = int(sub_tokens[2].strip())
                     case 3:
+                        sub_tokens = line.split('/')
+                        self.pos = tuple(map(int, sub_tokens[0].strip("()").split(","))) 
+                        self.radius = sub_tokens[1].strip().strip("()")
                         #broken
                         pos_part, radius_part = line.split(') (')
                         self.pos = pos_part[1:] 
@@ -45,7 +53,7 @@ class Entity:
                     case 6:
                         self.dialog_lines = line.strip()
                     case 7:
-                        self.texture = image.load(os.path.join('GameCoreFiles\Textures', 'bla.png'))
+                        self.texture = image.load(os.path.join(f'{TEXTURE_PATH}', line.strip()))
                     case _:
                         raise Exception("File format is unsuported (refer to README.md)")
         
