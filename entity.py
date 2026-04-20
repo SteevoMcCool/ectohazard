@@ -36,13 +36,10 @@ class Entity:
                         self.defc = int(sub_tokens[1].strip())
                         self.atk = int(sub_tokens[2].strip())
                     case 3:
-                        sub_tokens = line.split('/')
-                        self.pos = tuple(map(int, sub_tokens[0].strip("()").split(","))) 
-                        self.radius = sub_tokens[1].strip().strip("()")
-                        #broken
+                     
                         pos_part, radius_part = line.split(') (')
-                        self.pos = pos_part[1:] 
-                        self.radius = radius_part[:-1]
+                        self.pos = Vector2(*map(int,pos_part[1:].split(",")))
+                        self.radius = int(radius_part[:-2])
                     case 4:
                         sub_tokens = line.split(',')
                         self.status = []

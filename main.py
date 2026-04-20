@@ -75,9 +75,9 @@ class GameApp:
                 # Player inputs only if game is active and not paused
                 if self.game_running and not self.pause.menu.is_enabled():
                     if e.type == KEYDOWN:
-                        self.player.controller.process(e.key, time.get_ticks(), "down")
+                        self.player.controller.process(e.key, self.dt, "down")
                     elif e.type == KEYUP:
-                        self.player.controller.process(e.key, time.get_ticks(), "up")
+                        self.player.controller.process(e.key, self.dt, "up")
 
             # --- Safe State Management ---
             if not self.game_running:
@@ -97,7 +97,7 @@ class GameApp:
                     self.pause.menu.draw(self.screen)
 
             display.flip()
-            self.dt = self.clock.tick(60) / 100
+            self.dt = self.clock.tick(60) / 1000
 
         quit()
 
