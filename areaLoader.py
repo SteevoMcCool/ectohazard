@@ -1,18 +1,21 @@
+import os
+
+from gamepaths import *
 from pygame import * 
 from wall_ray_camera import *
 from controller import * 
-import os
 from entity import *
-MAPAREAWIDTH = 32 #the amount of areas in a row of the total map There can be gaps/jumps
 
+#the amount of areas in a row of the total map There can be gaps/jumps
+MAPAREAWIDTH = 32 
 
-AREAINNERSIZE = [64,64] #the size of a single area
+#the size of a single area
+AREAINNERSIZE = [64,64] 
 
 DEFAULTSKYCOLOR = Color(60,120,240)
 
 DEFAULTGROUNDCOLOR = Color(100,220,100)
 
-PATH_TO_AREAS = "./GameCoreFiles/Areas"
 
 class Area:
     def __init__(self,id):
@@ -24,7 +27,7 @@ class Area:
         self.sky = DEFAULTSKYCOLOR
         self.ground = DEFAULTGROUNDCOLOR
         self.entities = []
-        filename = f"{PATH_TO_AREAS}/area{id}.atxt"
+        filename = f"{AREA_PATH}/area{id}.atxt"
 
 
         self.uninitialized = False
@@ -52,7 +55,7 @@ class Area:
                             Vector2(*(float(coord) for coord in tokens[3].strip().split(" "))),
                             Color(*(int(c) for c  in tokens[1].strip().split(" ")))
                         )]
-                        print(  Vector2(*(float(coord) for coord in tokens[2].strip().split(" "))),
+                        print(Vector2(*(float(coord) for coord in tokens[2].strip().split(" "))),
                             Vector2(*(float(coord) for coord in tokens[3].strip().split(" "))),
                             tokens[1].strip().split(" "))
                         print("ADDED WALL")
@@ -60,7 +63,7 @@ class Area:
                     #Parse Entity property
                     case "Entity":
                         for fname in tokens[1:]:
-                            self.entities.append(Entity(os.path.join("GameCoreFiles\Entities",fname)))
+                            self.entities.append(Entity(os.path.join("./GameCoreFiles/Entities",fname)))
  
                     case _:
                         if len(tokens) > 0:
