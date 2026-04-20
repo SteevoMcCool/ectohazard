@@ -2,6 +2,35 @@ import pickle
 import os
 
 
+FALLBACK_DIRECTORY = "GameCoreFiles"
+def getFile(directory:str|os.PathLike,fname:str,fileType:str):
+    fileType = fileType.lower()
+    validFiletypes = ["area","dialogue","entity","texture"]
+    if fileType not in validFiletypes:
+        print(f"Error: {fileType} is invalid, expected one of {validFiletypes}")
+        exit(1) 
+    
+    match fileType:
+        case "area":
+            midpart = "Areas"
+        case "dialogues":
+            midpart = "Dialogues"
+        case "entity":
+            midpart = "Entities"
+        case "texture":
+            midpart = "Texture"
+    fullPath = os.path.join(directory,midpart,fname)
+    if os.path.exists(fullPath) and os.path.isfile(fullPath):
+        return fullPath
+    
+    fullPath = os.path.join(FALLBACK_DIRECTORY,midpart,fname)
+    if os.path.exists(fullPath) and os.path.isfile(fullPath):
+        return fullPath
+
+    print(f"Error: cannot find {fileType} of name {fname} in {directory} or in fallback={FALLBACK_DIRECTORY}")
+    exit(1)
+    
+
 def load(directory: str):
     """
     load file from directory
