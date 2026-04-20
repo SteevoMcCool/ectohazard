@@ -33,7 +33,7 @@ class Entity:
                     case 3:
                         #broken
                         sub_tokens = line.split('/')
-                        self.pos = tuple(map(lambda x: int(x.strip), sub_tokens[0].strip("()").split(","))) 
+                        self.pos = tuple(map(int, sub_tokens[0].strip("()").split(","))) 
                         self.radius = sub_tokens[1].strip().strip("()")
 
                     case 4:
