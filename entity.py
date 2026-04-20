@@ -32,7 +32,7 @@ class Entity:
                         self.atk = int(sub_tokens[2].strip())
                     case 3:
                         #broken
-                        pos_part, radius_part = line.split(')(')
+                        pos_part, radius_part = line.split(') (')
                         self.pos = pos_part[1:] 
                         self.radius = radius_part[:-1]
                     case 4:
