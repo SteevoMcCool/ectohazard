@@ -108,11 +108,11 @@ class Ray:
         "Returns a list of quadro of entity, contactpos, dist, texturepos for all entities hit by the ray before the distance"
         hits = []
         for entity in entities:
-            normRay = Ray(entity.pos,self.angle+pi/2)
-            normRay.shift(-2)
-            p1 = normRay.pos
-            normRay.shift(2)
-            p2 = normRay.pos
+            normRay = Ray(entity.pos*1,self.angle+pi/2) #same idea as below. do NOT remove *1
+            normRay.shift(-entity.radius)
+            p1 = normRay.pos*1 #DO NOT REMOVE *1. it gets a scalarwise copy of the vector.
+            normRay.shift(2*entity.radius)
+            p2 = normRay.pos*1
             cont = self.contact(Wall(p1,p2))
             if (cont):
                 dist = (cont - self.pos).magnitude()
