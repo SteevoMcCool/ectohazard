@@ -1,0 +1,66 @@
+import pygame
+from pygame import *
+from gamepaths import *
+from controller import Controller
+from entity import Entity
+from areaLoader import AreaLoader
+from player import Player
+from wall_ray_camera import *
+
+
+class Inventory:
+    def __init__(self, capacity=10):
+        self.items = []       # Store entity
+        self.capacity = capacity
+        self.is_open = False  # if inventory is open
+
+    def toggle(self, _=None): 
+        self.is_open = not self.is_open
+        print(f"Inventory is {'open' if self.is_open else 'close'}")
+
+    def add(self, entity):
+        if len(self.items) < self.capacity:
+            self.items.append(entity)
+            return True
+        print("Inventory is full")
+        return False
+
+    def handle_pickup_input(t):
+        # find current area
+        area = loader.loadedAreas.get(loader.currentCenter)
+        if not area:
+            return
+
+        for e in area.entities[:]:
+            distance = player.pos.distance_to(e.pos)
+
+            if distance < 60 and "item" in e.status:
+                if player_inv.add(e):
+                    area.entities.remove(e)  # remove item from map
+                    print(f"成功获得: {e.name}")
+                    break  # pick up only one at a time
+
+    def draw_inventory_ui(screen, inventory):
+        if not inventory.is_open:
+            return
+
+        overlay = Surface((300, 400))
+        overlay.set_alpha(180)
+        overlay.fill((20, 20, 20))
+        screen.blit(overlay, (50, 50))
+
+        # 列出物品名字
+        ui_font = font.SysFont("Arial", 22)
+        for i, item in enumerate(inventory.items):
+            # 这里的 item 依然是你定义的 Entity 对象
+            text = ui_font.render(f"{i + 1}. {item.name}", True, (255, 255, 255))
+            screen.blit(text, (70, 80 + i * 35))
+
+player_inv = Inventory(capacity=...)
+ctrl = Controller()
+
+# I for inventory
+ctrl.addBind(K_i, down=player_inv.toggle)
+
+# E for pick up
+ctrl.addBind(K_e, down=handle_pickup_input)
