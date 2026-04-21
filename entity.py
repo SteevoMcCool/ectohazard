@@ -28,17 +28,17 @@ class Entity:
                         self.name = line.strip()
                     case 1:
                         sub_tokens = line.split(',')
-                        self.agression = int(sub_tokens[0].strip())
-                        self.activity = int(sub_tokens[1].strip())
+                        self.agression = float(sub_tokens[0].strip())
+                        self.activity = float(sub_tokens[1].strip())
                     case 2:
                         sub_tokens = line.split(',')
-                        self.hp = int(sub_tokens[0].strip())
-                        self.defc = int(sub_tokens[1].strip())
-                        self.atk = int(sub_tokens[2].strip())
+                        self.hp = float(sub_tokens[0].strip())
+                        self.defc = float(sub_tokens[1].strip())
+                        self.atk = float(sub_tokens[2].strip())
                     case 3:
                         pos_part, radius_part = line.split(') (')
-                        self.pos = Vector2(*map(int,pos_part[1:].split(",")))
-                        self.radius = int(radius_part[:-2])
+                        self.pos = Vector2(*map(float,pos_part[1:].split(",")))
+                        self.radius = float(radius_part[:-2])
                     case 4:
                         sub_tokens = line.split(',')
                         self.status = []

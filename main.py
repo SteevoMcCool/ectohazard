@@ -60,7 +60,7 @@ class GameApp:
                     Vector2(x, screenHeight * HORIZON - wallSize/2)
                 )
             for (entity, contactpos, distance, texturepos) in ents:
-                entSize = screenHeight * (1 + A)/2 / (distance+ B)
+                entSize = screenHeight * (1 + A)/1.5 /(distance+ B)
                 #draw.line(self.screen, Color(255,255,255),
                 #    Vector2(x, screenHeight * HORIZON + entSize/2),
                 #    Vector2(x, screenHeight * HORIZON - entSize/2)
@@ -78,7 +78,7 @@ class GameApp:
 
                 scaled_column = pygame.transform.scale(tex_column, (1, entSize))
 
-                self.screen.blit(scaled_column, (x, screenHeight * HORIZON - entSize/4))
+                self.screen.blit(scaled_column, (x, screenHeight * HORIZON - entSize/3.25))
     def run(self):
         """Main application loop"""
         A, B = 2.5, 0.0001
