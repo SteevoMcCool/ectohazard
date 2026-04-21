@@ -36,7 +36,6 @@ class Entity:
                         self.defc = int(sub_tokens[1].strip())
                         self.atk = int(sub_tokens[2].strip())
                     case 3:
-                     
                         pos_part, radius_part = line.split(') (')
                         self.pos = Vector2(*map(int,pos_part[1:].split(",")))
                         self.radius = int(radius_part[:-2])
@@ -54,6 +53,7 @@ class Entity:
                     case _:
                         raise Exception("File format is unsuported (refer to README.md)")
         
+        self.log()
 
     def log(self):
         print(f"Name = {self.name}")

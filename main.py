@@ -36,7 +36,7 @@ class GameApp:
             print("Loaded new area")
 
         walls = ListOfLists(area.walls for area in self.areas.loadedAreas.values())
-        entities = [] 
+        entities =  ListOfLists(area.entities for area in self.areas.loadedAreas.values())
         centerArea = self.areas.loadedAreas[self.areas.currentCenter]
 
         winSize = display.get_window_size()
@@ -59,7 +59,26 @@ class GameApp:
                     Vector2(x, screenHeight * HORIZON + wallSize/2),
                     Vector2(x, screenHeight * HORIZON - wallSize/2)
                 )
+            for (entity, contactpos, distance, texturepos) in ents:
+                entSize = screenHeight * (1 + A)/2 / (distance+ B)
+                #draw.line(self.screen, Color(255,255,255),
+                #    Vector2(x, screenHeight * HORIZON + entSize/2),
+                #    Vector2(x, screenHeight * HORIZON - entSize/2)
+                #)
+                texture = entity.texture
+                tex_width  = texture.get_width()
+                tex_height = texture.get_height()
+                tex_x = int(round(texturepos*tex_width)) 
+                if (tex_x >= tex_width  or tex_x < 0):
+                    continue;
+                if (entSize > screenHeight*5):
+                    # "HUGE"
+                    continue
+                tex_column = texture.subsurface(pygame.Rect(tex_x, 0, 1, tex_height))
 
+                scaled_column = pygame.transform.scale(tex_column, (1, entSize))
+
+                self.screen.blit(scaled_column, (x, screenHeight * HORIZON - entSize/4))
     def run(self):
         """Main application loop"""
         A, B = 2.5, 0.0001

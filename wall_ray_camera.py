@@ -105,7 +105,7 @@ class Ray:
         return closest_hit if closest_hit else False
     
     def entityContacts(self,entities:list[Entity],maxDistance=inf):
-        "Returns a list of pairs of entity, contactpoint for all entities hit by the ray before the distance"
+        "Returns a list of quadro of entity, contactpos, dist, texturepos for all entities hit by the ray before the distance"
         hits = []
         for entity in entities:
             normRay = Ray(entity.pos,self.angle+pi/2)
@@ -115,12 +115,13 @@ class Ray:
             p2 = normRay.pos
             cont = self.contact(Wall(p1,p2))
             if (cont):
-                dist = (cont - self.pos).magnitude
+                dist = (cont - self.pos).magnitude()
+                tpos = normRay.pos.distance_to(cont) / (entity.radius*2)
                 if (dist > maxDistance):
                     continue
                 else:
-                    hits.append((entity,self.pos,(self.pos - cont)))
-        return hits 
+                    hits.append((entity,self.pos,dist,tpos))
+        return sorted(hits,key= lambda x:x[3] , reverse=True)
 
 class Camera:
     def __init__(self, center: Ray, fov: float, ray_count: int = 512):

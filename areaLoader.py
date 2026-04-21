@@ -64,7 +64,7 @@ class Area:
                     case "Entity":
                         for fname in tokens[1:]:
                             self.entities.append(Entity(os.path.join("./GameCoreFiles/Entities",fname)))
- 
+                            print("Added ENTITY")
                     case _:
                         if len(tokens) > 0:
                             if (tokens[0][0] == "#"):
