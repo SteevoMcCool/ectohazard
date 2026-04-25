@@ -15,7 +15,7 @@ import os
 FALLBACK_DIRECTORY = "GameCoreFiles"
 def getFile(directory:str|os.PathLike,fname:str,fileType:str):
     fileType = fileType.lower()
-    validFiletypes = ["area","dialogue","entity","texture"]
+    validFiletypes = ["area","dialogue","entity","texture","item"]
     if fileType not in validFiletypes:
         print(f"Error: {fileType} is invalid, expected one of {validFiletypes}")
         exit(1) 
@@ -29,6 +29,8 @@ def getFile(directory:str|os.PathLike,fname:str,fileType:str):
             midpart = "Entities"
         case "texture":
             midpart = "Texture"
+        case "item":
+            midpart = "InventoryItems"
     fullPath = os.path.join(directory,midpart,fname)
     if os.path.exists(fullPath) and os.path.isfile(fullPath):
         return fullPath

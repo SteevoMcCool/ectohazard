@@ -1,8 +1,9 @@
 from controller import * 
 from areaLoader import *
+from inventory import *
+
 
 class Player:
-
     def __init__(self):
         self.camera = Camera(Ray(Vector2(32,32),0),1)
         self.controller = Controller()
