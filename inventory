@@ -37,7 +37,7 @@ class Inventory:
             if distance < 60 and "item" in e.status:
                 if player_inv.add(e):
                     area.entities.remove(e)  # remove item from map
-                    print(f"成功获得: {e.name}")
+                    print(f"Get: {e.name}")
                     break  # pick up only one at a time
 
     def draw_inventory_ui(screen, inventory):
@@ -49,10 +49,9 @@ class Inventory:
         overlay.fill((20, 20, 20))
         screen.blit(overlay, (50, 50))
 
-        # 列出物品名字
         ui_font = font.SysFont("Arial", 22)
         for i, item in enumerate(inventory.items):
-            # 这里的 item 依然是你定义的 Entity 对象
+      
             text = ui_font.render(f"{i + 1}. {item.name}", True, (255, 255, 255))
             screen.blit(text, (70, 80 + i * 35))
 
