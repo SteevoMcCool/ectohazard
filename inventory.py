@@ -1,4 +1,5 @@
 import pygame
+import os
 from pygame import Surface, font, K_i, K_e
 
 from gamepaths import *
@@ -7,7 +8,7 @@ from entity import Entity
 from areaLoader import AreaLoader
 from player import Player
 from wall_ray_camera import *
-
+from gamepaths import getFile
 
 class Inventory:
     # ui size
@@ -74,15 +75,41 @@ class Inventory:
 
 class Item:
     def __init__(self, name, texture, custom_properties=None):
-        self.nsme = name
+        self.name = name
         self.texture = texture
         
         if custom_properties:
             for prop_name, prop_value in custom_properties.items():
                 # Set the custom property as an attribute on the object
                 setattr(self, prop_name, prop_value)
-        
 
+
+def Load_Inventory(filenames, directory):
+    Inventory = []
+
+    for fname in filenames:
+        file_path = getFile(directory, fname, 'item')
+        
+        if file_path and os.path.exists(file_path):
+            with open(file_path, 'r') as f:
+                lines = f.readlines()
+                
+                if len(lines) >= 2:
+                name = lines[0].strip()
+                texture = lines[1].strip()
+                
+                new_item = Item(name, texture)
+                
+                for line in lines[2:]:
+                    if "=" in line:
+                        parts = line.split("=")
+                        key = parts[0].strip()
+                        value_str = parts[1].strip()
+                        value = eval(value_str)
+                        setattr(new_item, key, value)
+                
+                Inventory.append(new_item)
+    return Inventory
 
 """these actions will belong to the Player class
 # create inv
