@@ -1,5 +1,5 @@
 import pygame
-from pygame import Surface, font, K_i, K_e
+from pygame import *
 
 from gamepaths import *
 from controller import Controller
@@ -8,7 +8,33 @@ from areaLoader import AreaLoader
 from player import Player
 from wall_ray_camera import *
 
+import ItemBehaviors
 
+class Item: 
+    def __init__(self, sourceItemName):
+        with open(getFile("workingDir",sourceItemName + ".itxt","item")) as f:
+            self.data = {}
+            lc = 0
+            for line in f:
+                if lc== 0:
+                    self.name = line 
+                elif lc == 1:
+                    #TODO - loads the texture 
+                    self.texture =  image.load(os.path.join(f'{TEXTURE_PATH}', line.strip())) 
+                else:
+                    name, value = line.split('=')
+                    self.data[name.strip()] =  eval(value.strip())
+                lc+=1
+        self.update, self.button1down, self.button1up, self.button2down, self.button2up = None,None,None,None,None
+        try:
+            self.behavior = ItemBehaviors[sourceItemName]
+            self.update = self.behavior.update
+            self.button1down = self.behavior.button1down
+            self.button1up = self.behavior.button1up
+            self.button2down = self.behavior.button2down
+            self.button2up = self.behavior.button2up        
+        except:
+            print("Error accessing behavior: ", sourceItemName)
 class Inventory:
     # ui size
     UI_WIDTH = 300

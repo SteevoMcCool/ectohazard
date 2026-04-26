@@ -49,6 +49,11 @@ class GameApp:
 
         view, entview = self.player.camera.view(walls, entities)
 
+        inventory,idx = self.player.inventory, self.player.invSlotEquipped
+        item = inventory.items[idx]
+        if (item):
+            item.update()
+
         # Render wall columns
         for x, pixRow, ents in zip(range(len(view)), view, entview):
             if pixRow:
