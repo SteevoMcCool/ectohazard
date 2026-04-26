@@ -38,7 +38,7 @@ class PauseMenu:
         self.menu.add.button('Resume', self._on_resume)
         self.menu.add.button('Main Menu', self._on_return_main)
         self.menu.add.button('Save', self._on_save)
-        self.menu.add.button('Save', self._on_load)
+        self.menu.add.button('Load', self._on_load)
         self.menu.add.button('Quit', pygame_menu.events.EXIT)
         self.menu.disable()
 
