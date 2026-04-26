@@ -23,7 +23,7 @@ def getFile(directory:str|os.PathLike,fname:str,fileType:str):
     match fileType:
         case "area":
             midpart = "Areas"
-        case "dialogues":
+        case "dialogue":
             midpart = "Dialogues"
         case "entity":
             midpart = "Entities"
@@ -41,3 +41,26 @@ def getFile(directory:str|os.PathLike,fname:str,fileType:str):
 
     print(f"Error: cannot find {fileType} of name {fname} in {directory} or in fallback={FALLBACK_DIRECTORY}")
     exit(1)
+
+
+def getFileToWrite(directory:str|os.PathLike,fname:str,fileType:str):
+    fileType = fileType.lower()
+    validFiletypes = ["area","dialogue","entity","texture","item"]
+    if fileType not in validFiletypes:
+        print(f"Error: {fileType} is invalid, expected one of {validFiletypes}")
+        exit(1) 
+    
+    match fileType:
+        case "area":
+            raise ValueError("Area files not mutable")
+        case "dialogue":
+            raise ValueError("Dialogue files not mutable")
+        case "entity":
+            midpart = "Entities"
+        case "texture":
+            raise ValueError("Texture files not mutable")
+        case "item":
+            midpart = "InventoryItems"
+
+    fullPath = os.path.join(directory,midpart,fname)
+    return fullPath
