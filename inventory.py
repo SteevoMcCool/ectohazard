@@ -73,10 +73,14 @@ class Inventory:
 
 
 class Item:
-    def __init__(self, name, texture, level=None):
+    def __init__(self, name, texture, custom_properties=None):
         self.nsme = name
         self.texture = texture
-        self.level = level
+        
+        if custom_properties:
+            for prop_name, prop_value in custom_properties.items():
+                # Set the custom property as an attribute on the object
+                setattr(self, prop_name, prop_value)
         
 
 
