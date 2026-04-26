@@ -72,7 +72,12 @@ class Inventory:
             )
 
 
-
+class Item:
+    def __init__(self, name, texture, level=None):
+        self.nsme = name
+        self.texture = texture
+        self.level = level
+        
 
 
 """these actions will belong to the Player class
