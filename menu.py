@@ -11,13 +11,19 @@ class MainMenu:
             theme=pygame_menu.themes.THEME_BLUE
         )
 
-        self.menu.add.button('Play', self._on_play)
+        self.menu.add.button('New Game', self._on_play)
+        self.menu.add.button('Load', self._on_load)
         self.menu.add.button('Quit', pygame_menu.events.EXIT)
         self.menu.enable()
 
     def _on_play(self):
         self.game.game_running = True
         self.menu.disable()
+
+    def _on_load(self):
+        #TODO: - enable the SaveMenu class, and call the load method
+        #      - display a message
+        return
 
 class PauseMenu:
     def __init__(self, game_instance):
@@ -32,6 +38,7 @@ class PauseMenu:
         self.menu.add.button('Resume', self._on_resume)
         self.menu.add.button('Main Menu', self._on_return_main)
         self.menu.add.button('Save', self._on_save)
+        self.menu.add.button('Save', self._on_load)
         self.menu.add.button('Quit', pygame_menu.events.EXIT)
         self.menu.disable()
 
@@ -46,9 +53,14 @@ class PauseMenu:
         self.game.main.menu.enable()
 
     def _on_save(self):
-        # TODO: IMPLEMENT THE SAVE LOGIC
+        #TODO: - enable the SaveMenu class, and call the save method
+        #      - display a message 
         return
 
+    def _on_load(self):
+        #TODO: - enable the SaveMenu class, and call the load method
+        #      - display a message
+        return
 
 # TODO: IMPLEMENT THE SAVE MENU
 class SaveMenu:
