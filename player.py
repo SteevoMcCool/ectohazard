@@ -35,7 +35,7 @@ class Player:
 
 
     def equipItem(self,slot):
-        pass
+        self.invSlotEquipped = slot
 
 
     def actionKeyPressed(self):

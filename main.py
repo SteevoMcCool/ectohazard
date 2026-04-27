@@ -230,6 +230,12 @@ class GameApp:
             else:
                 # Game is running
                 self.render_game(A, B, HORIZON)
+                if (self.player.invSlotEquipped < len(self.player.inventory.items)):
+                    item = self.player.inventory.items[self.player.invSlotEquipped]
+                    self.screen.blit(
+                        transform.scale(item.texture,display.get_window_size()), (0,0)
+                    )
+
                 self.render_gui()
                 # Check if pause menu is enabled (Redundancy here is crucial do not simplify !)
                 if self.pause.menu.is_enabled():
