@@ -5,7 +5,7 @@ def update(self,gameApp):
             self: the Entity described by the file 
                 ...
     """
-    pass
+    print(self.name)
 
 
 

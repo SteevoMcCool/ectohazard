@@ -7,7 +7,6 @@ from gamepaths import *
 from controller import Controller
 from entity import Entity
 from areaLoader import AreaLoader
-from player import Player
 from wall_ray_camera import *
 
 import ItemBehaviors

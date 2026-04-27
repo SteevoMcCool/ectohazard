@@ -2,7 +2,7 @@ import os
 
 from gamepaths import *
 from pygame import * 
-
+import EntityBehaviors.get
 
 class Entity:
 
@@ -52,7 +52,11 @@ class Entity:
                         self.texture = image.load(os.path.join(f'{TEXTURE_PATH}', line.strip()))
                     case _:
                         raise Exception("File format is unsuported (refer to README.md)")
-        
+        self.behavior = EntityBehaviors.get.behavior(self.name)
+        if (self.behavior):
+            self.update = self.behavior.update
+            self.approached = self.behavior.approached
+            self.actionKeyPressed = self.behavior.actionKeyPressed
         self.log()
 
     def log(self):
