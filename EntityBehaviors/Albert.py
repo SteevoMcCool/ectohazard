@@ -1,3 +1,6 @@
+SPEED = 5
+import math
+from pygame import Vector2
 def update(self,gameApp): 
     """
         Function to be called every tick
@@ -5,7 +8,14 @@ def update(self,gameApp):
             self: the Entity described by the file 
                 ...
     """
-    print(self.name)
+    player = gameApp.player
+    ppos = player.camera.center.pos
+    epos = self.pos
+    dpos = (ppos - epos)
+    if dpos.magnitude() > 5:
+       dt = gameApp.dt 
+       angle= math.atan2(dpos.y, dpos.x)
+       self.pos += SPEED*dt*Vector2(math.cos(angle),math.sin(angle))
 
 
 
