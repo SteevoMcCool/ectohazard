@@ -1,7 +1,7 @@
 from controller import * 
 from areaLoader import *
 from inventory import *
-
+from listOfLists import ListOfLists
 
 class Player:
     def __init__(self,gameApp):
@@ -10,7 +10,6 @@ class Player:
         self.inventory = Inventory()
         self.invSlotEquipped = 0
         self.speed = 10
-        self.area = 1
         self.gameApp = gameApp
         self.controller.addBind(K_w,whileDown= lambda dt: self.move(dt*self.speed* self.camera.center.lookVector()))
         self.controller.addBind(K_s,whileDown= lambda dt: self.move(-dt*self.speed* self.camera.center.lookVector()))
@@ -34,12 +33,25 @@ class Player:
         self.controller.addBind(K_4,up = lambda _: self.equipItem(3))
 
 
-    def equipItem(slot):
+    def equipItem(self,slot):
         pass
 
 
     def actionKeyPressed(self):
-        pass
+        entities = ListOfLists(area.entities for area in self.gameApp.areas.loadedAreas.values())
+        closestEnt = None 
+        closestDist = 99999
+        for ent in entities:
+            d = (ent.pos - self.camera.center.pos).magnitude() 
+            if d < 5.5:
+                if d < closestDist:
+                    closestDist = d 
+                    closestEnt = ent 
+        if (closestEnt):
+            closestEnt.actionKeyPressed(closestEnt, self.gameApp)
+
+
+
     def move(self, deltaPos):
         self.camera.center.pos += deltaPos
 

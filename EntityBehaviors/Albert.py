@@ -38,11 +38,14 @@ def actionKeyPressed(self,gameApp):
             approacher: the Entity|Player that approached 
                 ...
     """
-    pass
+    print("Albort")
  
 
 
 def chatted(self,response:int|str,gameApp):
-    pass
+    if (response == -1):
+        print("Got: -1")
+    
+
 
 

@@ -14,7 +14,7 @@ class Entity:
     # albertdialogue.dtxt   5
     # 1                     6
     # texture.png           7
-    def __init__(self, filename):
+    def __init__(self, filename,spawnOffset):
         with open(filename, 'r') as f:
             line_table = f.readlines()
             length = len(line_table)
@@ -37,7 +37,7 @@ class Entity:
                         self.atk = float(sub_tokens[2].strip())
                     case 3:
                         pos_part, radius_part = line.split(') (')
-                        self.pos = Vector2(*map(float,pos_part[1:].split(",")))
+                        self.pos = Vector2(*map(float,pos_part[1:].split(","))) + spawnOffset
                         self.radius = float(radius_part[:-2])
                     case 4:
                         sub_tokens = line.split(',')

@@ -2,10 +2,11 @@ import pygame
 from pygame import *
 
 from player import Player
-from areaLoader import AreaLoader
+from areaLoader import *
 from listOfLists import ListOfLists
 from menu import MainMenu, PauseMenu
 from entity import Entity
+
 class GameApp:
 
     def __init__(self):
@@ -48,13 +49,38 @@ class GameApp:
         self.terminalOut += prompt
         #return input(prompt)
 
+
+    def render_gui(self):
+        #STEP1: render inventory gui
+        inventory = self.player.inventory
+        winSize = display.get_window_size()
+        basePosY  = 2/3*winSize[1] + winSize[1]*105/500
+        baseHeight = 0.12 * winSize[1]
+
+        baseWidth = 0.12 * winSize[1]
+        basePosX = 0.5*winSize[0] - baseWidth*2 - 10
+        for i in range(0,4):
+            self.screen.fill(
+                    Color(67,67,67), 
+                    Rect(basePosX + i*(baseWidth+5) , basePosY, baseWidth, baseHeight),       
+            )
+            self.screen.blit(
+                self.terminalFont.render(str(i+1),True,Color(255,255,255)), 
+                (basePosX + i*(baseWidth+5) , basePosY)
+            )
+
+        #STEP2: 
+        pass
     def render_game(self, A, B, HORIZON):
         """Handle 3D rendering and world updates"""
         self.player.controller.step(self.dt)
 
+        aX = self.player.camera.center.pos.x // AREAINNERSIZE[0]
+        aY = self.player.camera.center.pos.y // AREAINNERSIZE[1]
+        self.player.area = aY * 32 + aX
         if self.areas.loadAround(self.player.area):
             print("Loaded new area")
-
+        print(self.areas.loadedAreas)
         walls = ListOfLists(area.walls for area in self.areas.loadedAreas.values())
         entities =  ListOfLists(area.entities for area in self.areas.loadedAreas.values())
         centerArea = self.areas.loadedAreas[self.areas.currentCenter]
@@ -197,7 +223,7 @@ class GameApp:
             else:
                 # Game is running
                 self.render_game(A, B, HORIZON)
-
+                self.render_gui()
                 # Check if pause menu is enabled (Redundancy here is crucial do not simplify !)
                 if self.pause.menu.is_enabled():
                     self.pause.menu.update(events)
