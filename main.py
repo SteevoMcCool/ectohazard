@@ -87,7 +87,6 @@ class GameApp:
         self.player.area = aY * 32 + aX
         if self.areas.loadAround(self.player.area):
             print("Loaded new area")
-        print(self.areas.loadedAreas)
         walls = ListOfLists(area.walls for area in self.areas.loadedAreas.values())
         entities =  ListOfLists(area.entities for area in self.areas.loadedAreas.values())
         centerArea = self.areas.loadedAreas[self.areas.currentCenter]

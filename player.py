@@ -8,7 +8,7 @@ class Player:
         self.camera = Camera(Ray(Vector2(32,32),0),1)
         self.controller = Controller()
         self.inventory = Inventory()
-        self.inventory.load(["PlasmaRay"])
+        self.inventory.load(["PlasmaRay","Communicator"])
         self.invSlotEquipped = 0
         self.speed = 10
         self.gameApp = gameApp
@@ -24,8 +24,14 @@ class Player:
 
         self.controller.addBind(K_i,up= lambda t: self.inventory.toggle() if t < 0.120 else 0)
         
-        self.controller.addBind(K_MINUS)
-        self.controller.addBind(K_PLUS)
+        self.controller.addBind(K_MINUS, 
+            down = lambda _: self.inventory.items[self.invSlotEquipped].button1down(self,gameApp) if self.invSlotEquipped < len(self.inventory.items) else 0,
+            up = lambda _ :self.inventory.items[self.invSlotEquipped].button1up(self,gameApp) if self.invSlotEquipped < len(self.inventory.items) else 0,
+        )
+        self.controller.addBind(K_EQUALS,
+            down = lambda _: self.inventory.items[self.invSlotEquipped].button2down(self,gameApp) if self.invSlotEquipped < len(self.inventory.items) else 0,
+            up = lambda _ :self.inventory.items[self.invSlotEquipped].button2up(self,gameApp) if self.invSlotEquipped < len(self.inventory.items) else 0,
+        )
 
         #navigating your hotbar
         self.controller.addBind(K_1,up = lambda _: self.equipItem(0))

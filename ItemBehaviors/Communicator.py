@@ -1,7 +1,3 @@
-BASE_DAMAGE = 10
-DAMAGE_PER_LEVEL = 0.5
-DAMAGE_PER_LEVEL_SQUARED = 0.5
-TEMP = 0
 def update(self,gameApp): 
     """
         Function to be called every tick
@@ -19,7 +15,7 @@ def button1down(self,gameApp):
             self: the Entity described by the file 
             ...
     """
-    print("D")
+    print("com D")
     pass
 
 def button1up(self,gameApp):
@@ -29,7 +25,7 @@ def button1up(self,gameApp):
             self: the Entity described by the file 
             ...
     """
-    print("U")
+    print("com U")
     pass
 
 
@@ -40,7 +36,7 @@ def button2down(self,gameApp):
             self: the Entity described by the file 
             ...
     """
-    print("2d")
+    print("com 2d")
     pass
 
 def button2up(self,gameApp):
@@ -50,7 +46,7 @@ def button2up(self,gameApp):
             self: the Entity described by the file 
             ...
     """
-    print("2u")
+    print("com 2u")
     pass
 
 
