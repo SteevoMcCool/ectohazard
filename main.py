@@ -91,6 +91,7 @@ class GameApp:
     
     def displayDialogue(speaker:Entity,text:str,options:list[str] = []):
         #TODO
+        print(f"{speaker.name}: {text}")
         pass
     
     def run(self):

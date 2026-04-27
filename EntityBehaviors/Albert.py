@@ -26,7 +26,7 @@ def approached(self,approacher,gameApp):
             self: the Entity described by the file 
                 ...
     """
-    pass
+    gameApp.displayDialogue(self, "Want to talk? Just press your [Action Key] (E / F)")
 
 
 

@@ -29,7 +29,7 @@ class Item:
                 lc+=1
         self.update, self.button1down, self.button1up, self.button2down, self.button2up = None,None,None,None,None
         try:
-            self.behavior = ItemBehaviors[sourceItemName]
+            self.behavior = ItemBehaviors.get.behavior(sourceItemName)
             self.update = self.behavior.update
             self.button1down = self.behavior.button1down
             self.button1up = self.behavior.button1up

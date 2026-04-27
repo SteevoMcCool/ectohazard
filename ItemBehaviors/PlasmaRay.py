@@ -1,3 +1,7 @@
+BASE_DAMAGE = 10
+DAMAGE_PER_LEVEL = 0.5
+DAMAGE_PER_LEVEL_SQUARED = 0.5
+TEMP = 0
 def update(self,gameApp): 
     """
         Function to be called every tick
