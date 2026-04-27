@@ -30,6 +30,7 @@ class GameApp:
         self.terminalIn = ""
         self.terminalWaiting = False
         self.terminalWaitingFinished=None
+        self.terminalFont = font.Font(None,30)
         # Bind ESC key to open pause menu
         self.player.controller.addBind(K_ESCAPE, down=lambda z: self.pause.menu.enable())
 
@@ -44,6 +45,7 @@ class GameApp:
     def input(self,prompt,when_done=None):
         self.terminalWaiting = True
         self.terminalWaitingFinished = when_done
+        self.terminalOut += prompt
         #return input(prompt)
 
     def render_game(self, A, B, HORIZON):
@@ -88,7 +90,6 @@ class GameApp:
             if pixRow:
                 dist, wall = pixRow[0], pixRow[1]
                 wallSize = screenHeight * (1 + A) / (dist + B)
-                
                 draw.line(self.screen, wall.color,
                     Vector2(x, screenHeight * HORIZON + wallSize/2),
                     Vector2(x, screenHeight * HORIZON - wallSize/2)
@@ -115,6 +116,11 @@ class GameApp:
                 self.screen.blit(scaled_column, (x, screenHeight * HORIZON - entSize/3.25))
     
     def respondToSpeaker(self,speaker,response,options):
+        self.terminalOut = ""
+        self.terminalIn = ""
+        if (response == -1): 
+            return speaker.chatted(speaker,-1,self)
+
         try:
             assert 1 <= (r := int(response)) <= len(options)
             speaker.chatted(speaker,r,self)
@@ -173,6 +179,10 @@ class GameApp:
                         Color(25,20,30), 
                         Rect(1/16*winSize[0], 2/3*winSize[1], winSize[0]*7/8,winSize[1]*1/5)
                     )
+                self.screen.blit(
+                    self.terminalFont.render(self.terminalOut + self.terminalIn,True,Color(240,240,250)),
+                    (1/16*winSize[0] + 5 ,2/3*winSize[1] + 5)
+                )
                 display.flip()
                 self.dt = self.clock.tick(60) / 1000
                 continue

@@ -57,6 +57,7 @@ class Entity:
             self.update = self.behavior.update
             self.approached = self.behavior.approached
             self.actionKeyPressed = self.behavior.actionKeyPressed
+            self.chatted = self.behavior.chatted
         self.log()
 
     def log(self):
