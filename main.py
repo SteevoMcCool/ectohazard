@@ -24,9 +24,27 @@ class GameApp:
         
         self.main = MainMenu(self)
         self.pause = PauseMenu(self)
+        self.approachedEnts = set()
 
+        self.terminalOut = ""
+        self.terminalIn = ""
+        self.terminalWaiting = False
+        self.terminalWaitingFinished=None
         # Bind ESC key to open pause menu
         self.player.controller.addBind(K_ESCAPE, down=lambda z: self.pause.menu.enable())
+
+
+    def print(self,*args,end="\n",sep=" \t"):
+        count = len(args)
+        idx = 0
+        for arg in args:
+            idx+=1
+            self.terminalOut+= str(arg) + (sep if idx < count else end) 
+
+    def input(self,prompt,when_done=None):
+        self.terminalWaiting = True
+        self.terminalWaitingFinished = when_done
+        #return input(prompt)
 
     def render_game(self, A, B, HORIZON):
         """Handle 3D rendering and world updates"""
@@ -57,6 +75,13 @@ class GameApp:
         for ent in entities:
             if (ent.update):
                 ent.update(ent,self)
+            if (ent.pos - self.player.camera.center.pos).magnitude() < 2.5:
+                if ent not in self.approachedEnts:
+                    self.approachedEnts.add(ent)
+                    ent.approached(ent,self.player, self)
+            elif (ent.pos - self.player.camera.center.pos).magnitude() > 5:
+                if ent in self.approachedEnts:
+                    self.approachedEnts.remove(ent)
 
         # Render wall columns
         for x, pixRow, ents in zip(range(len(view)), view, entview):
@@ -89,10 +114,23 @@ class GameApp:
 
                 self.screen.blit(scaled_column, (x, screenHeight * HORIZON - entSize/3.25))
     
-    def displayDialogue(speaker:Entity,text:str,options:list[str] = []):
-        #TODO
-        print(f"{speaker.name}: {text}")
-        pass
+    def respondToSpeaker(self,speaker,response,options):
+        try:
+            assert 1 <= (r := int(response)) <= len(options)
+            speaker.chatted(speaker,r,self)
+        except:
+            return self.displayDialogueYield(speaker,"Please enter valid number in range.",options)
+
+    def displayDialogueYield(self,speaker:Entity,text:str,options:list[str] = []):
+        self.print(f"{speaker.name}: {text}")
+        if (not options) or len(options) == 0:
+            self.input("Ok? ", when_done= lambda x: self.respondToSpeaker(speaker,-1,options))
+            return 1
+        else:
+            idx = 0
+            for option in options:
+                self.print(f"[{idx:=idx+1} {option}] ",end="")
+                self.input("Choose: ", when_done= lambda x: self.respondToSpeaker(speaker,x,options))
     
     def run(self):
         """Main application loop"""
@@ -100,18 +138,44 @@ class GameApp:
         HORIZON = 0.575
 
         while self.process_running:
-            events = event.get()
+            events:list[event.Event] = event.get()
             
             for e in events:
                 if e.type == QUIT:
                     self.process_running = False
                 
                 # Player inputs only if game is active and not paused
-                if self.game_running and not self.pause.menu.is_enabled():
+                if self.terminalWaiting:
+                    if e.type == KEYDOWN:
+                        if (e.key == 13):
+                            self.terminalWaiting = False
+                            if (self.terminalWaitingFinished): 
+                                print("EHEHEHE")
+                                self.terminalWaitingFinished(self.terminalIn)
+                                print("EHEHEHE")
+                                self.terminalIn = ""
+                                self.terminalWaitingFinished = None
+                        else:
+                            self.terminalIn +=  chr(e.key) 
+                    elif e.type == KEYUP and self.player.controller.activePresses.get(e.key,None):
+                        self.player.controller.process(e.key, self.dt, "up")
+                elif self.game_running and not self.pause.menu.is_enabled():
                     if e.type == KEYDOWN:
                         self.player.controller.process(e.key, self.dt, "down")
                     elif e.type == KEYUP:
                         self.player.controller.process(e.key, self.dt, "up")
+
+
+                
+            if self.terminalWaiting:
+                winSize = display.get_window_size()
+                self.screen.fill(
+                        Color(25,20,30), 
+                        Rect(1/16*winSize[0], 2/3*winSize[1], winSize[0]*7/8,winSize[1]*1/5)
+                    )
+                display.flip()
+                self.dt = self.clock.tick(60) / 1000
+                continue
 
             # --- Safe State Management ---
             if not self.game_running:
