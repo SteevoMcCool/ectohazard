@@ -11,6 +11,8 @@ class Player:
         self.inventory.load(["PlasmaRay","Communicator"])
         self.invSlotEquipped = 0
         self.speed = 10
+        self.maxHealth = 100
+        self.Health = 100
         self.gameApp = gameApp
         self.controller.addBind(K_w,whileDown= lambda dt: self.move(dt*self.speed* self.camera.center.lookVector()))
         self.controller.addBind(K_s,whileDown= lambda dt: self.move(-dt*self.speed* self.camera.center.lookVector()))
