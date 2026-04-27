@@ -8,6 +8,7 @@ class Player:
         self.camera = Camera(Ray(Vector2(32,32),0),1)
         self.controller = Controller()
         self.inventory = Inventory()
+        self.inventory.load(["PlasmaRay"])
         self.invSlotEquipped = 0
         self.speed = 10
         self.gameApp = gameApp

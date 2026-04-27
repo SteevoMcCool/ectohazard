@@ -9,7 +9,7 @@ from entity import Entity
 from areaLoader import AreaLoader
 from wall_ray_camera import *
 
-import ItemBehaviors
+import ItemBehaviors.get
 from gamepaths import getFile
 
 class Item: 
@@ -30,12 +30,14 @@ class Item:
         self.update, self.button1down, self.button1up, self.button2down, self.button2up = None,None,None,None,None
         try:
             self.behavior = ItemBehaviors.get.behavior(sourceItemName)
+            print(self.behavior)
             self.update = self.behavior.update
             self.button1down = self.behavior.button1down
             self.button1up = self.behavior.button1up
             self.button2down = self.behavior.button2down
             self.button2up = self.behavior.button2up        
-        except:
+        except BaseException as e:
+            print(e)
             print("Error accessing behavior: ", sourceItemName)
 
 

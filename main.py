@@ -6,7 +6,7 @@ from areaLoader import *
 from listOfLists import ListOfLists
 from menu import MainMenu, PauseMenu
 from entity import Entity
-
+from inventory import * 
 class GameApp:
 
     def __init__(self):
@@ -60,14 +60,21 @@ class GameApp:
         baseWidth = 0.12 * winSize[1]
         basePosX = 0.5*winSize[0] - baseWidth*2 - 10
         for i in range(0,4):
+            px = basePosX + i*(baseWidth+5) 
             self.screen.fill(
                     Color(67,67,67), 
-                    Rect(basePosX + i*(baseWidth+5) , basePosY, baseWidth, baseHeight),       
+                    Rect(px, basePosY, baseWidth, baseHeight),       
             )
+            if i < len(inventory.items):
+                item:Item = inventory.items[i]
+                self.screen.blit(transform.scale(item.texture,(baseWidth-4,baseHeight-4)), (px,basePosY))
+
+                
             self.screen.blit(
                 self.terminalFont.render(str(i+1),True,Color(255,255,255)), 
                 (basePosX + i*(baseWidth+5) , basePosY)
             )
+
 
         #STEP2: 
         pass
@@ -98,7 +105,7 @@ class GameApp:
         inventory,idx = self.player.inventory, self.player.invSlotEquipped
         if (idx < len(inventory.items)):
             item = inventory.items[idx]
-            item.update()
+            item.update(item,self)
 
         for ent in entities:
             if (ent.update):
@@ -135,9 +142,9 @@ class GameApp:
                 if (entSize > screenHeight*5):
                     # "HUGE"
                     continue
-                tex_column = texture.subsurface(pygame.Rect(tex_x, 0, 1, tex_height))
+                tex_column = texture.subsurface(Rect(tex_x, 0, 1, tex_height))
 
-                scaled_column = pygame.transform.scale(tex_column, (1, entSize))
+                scaled_column = transform.scale(tex_column, (1, entSize))
 
                 self.screen.blit(scaled_column, (x, screenHeight * HORIZON - entSize/3.25))
     
