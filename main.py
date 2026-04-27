@@ -5,7 +5,7 @@ from player import Player
 from areaLoader import AreaLoader
 from listOfLists import ListOfLists
 from menu import MainMenu, PauseMenu
-
+from entity import Entity
 class GameApp:
 
     def __init__(self):
@@ -88,6 +88,11 @@ class GameApp:
                 scaled_column = pygame.transform.scale(tex_column, (1, entSize))
 
                 self.screen.blit(scaled_column, (x, screenHeight * HORIZON - entSize/3.25))
+    
+    def displayDialogue(speaker:Entity,text:str,options:list[str] = []):
+        #TODO
+        pass
+    
     def run(self):
         """Main application loop"""
         A, B = 2.5, 0.0001
