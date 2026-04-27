@@ -177,10 +177,12 @@ class GameApp:
                         Color(25,20,30), 
                         Rect(1/16*winSize[0], 2/3*winSize[1], winSize[0]*7/8,winSize[1]*1/5)
                     )
-                self.screen.blit(
-                    self.terminalFont.render(self.terminalOut + self.terminalIn,True,Color(240,240,250)),
-                    (1/16*winSize[0] + 5 ,2/3*winSize[1] + 5)
-                )
+                linedx = 0
+                for line in (self.terminalOut + self.terminalIn).split('\n'):
+                    self.screen.blit(
+                        self.terminalFont.render(line ,True,Color(240,240,250)),
+                        (1/16*winSize[0] + 5 ,2/3*winSize[1] + 5 + (linedx:=linedx+30)-30 )
+                    )
                 display.flip()
                 self.dt = self.clock.tick(60) / 1000
                 continue
