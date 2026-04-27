@@ -19,7 +19,7 @@ class GameApp:
         self.game_running = False
         self.dt = 0
 
-        self.player = Player()
+        self.player = Player(self)
         self.areas = AreaLoader()
         
         self.main = MainMenu(self)
@@ -77,11 +77,11 @@ class GameApp:
         for ent in entities:
             if (ent.update):
                 ent.update(ent,self)
-            if (ent.pos - self.player.camera.center.pos).magnitude() < 2.5:
+            if (ent.pos - self.player.camera.center.pos).magnitude() < 1.75:
                 if ent not in self.approachedEnts:
                     self.approachedEnts.add(ent)
                     ent.approached(ent,self.player, self)
-            elif (ent.pos - self.player.camera.center.pos).magnitude() > 5:
+            elif (ent.pos - self.player.camera.center.pos).magnitude() > 4.25:
                 if ent in self.approachedEnts:
                     self.approachedEnts.remove(ent)
 
@@ -156,9 +156,7 @@ class GameApp:
                         if (e.key == 13):
                             self.terminalWaiting = False
                             if (self.terminalWaitingFinished): 
-                                print("EHEHEHE")
                                 self.terminalWaitingFinished(self.terminalIn)
-                                print("EHEHEHE")
                                 self.terminalIn = ""
                                 self.terminalWaitingFinished = None
                         else:

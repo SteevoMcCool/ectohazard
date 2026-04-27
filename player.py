@@ -4,13 +4,14 @@ from inventory import *
 
 
 class Player:
-    def __init__(self):
+    def __init__(self,gameApp):
         self.camera = Camera(Ray(Vector2(32,32),0),1)
         self.controller = Controller()
         self.inventory = Inventory()
         self.invSlotEquipped = 0
         self.speed = 10
         self.area = 1
+        self.gameApp = gameApp
         self.controller.addBind(K_w,whileDown= lambda dt: self.move(dt*self.speed* self.camera.center.lookVector()))
         self.controller.addBind(K_s,whileDown= lambda dt: self.move(-dt*self.speed* self.camera.center.lookVector()))
         self.controller.addBind(K_d,whileDown= lambda dt: self.turn(0.85*  dt))

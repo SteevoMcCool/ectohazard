@@ -5,3 +5,15 @@
     opt1 "Ok" 3
     opt1 "Can you restart?" 1
     
+3 "Use [1,2,3,4] to navigate your inventory. Try pressing [1], then come back and talk to me."
+    opt1 "Ok" 0
+
+4 "Great! That's your Plasma Ray! You'll need that to defend yourself"
+    opt1 "From what?" 5
+    opt2 "How does it work?" 6
+
+5 "Right... I suppose you don't exactly know what you're doing here."
+    
+
+6 "*holds up finger guns* pew pew! now, imagine that with plasma!"
+    opt1 "Okay... what do i use if for?" 5
