@@ -110,7 +110,7 @@ class GameApp:
         view, entview = self.player.camera.view(walls, entities)
 
         inventory,idx = self.player.inventory, self.player.invSlotEquipped
-        if (idx < len(inventory.items)):
+        if (0<=idx < len(inventory.items)):
             item = inventory.items[idx]
             item.update(item,self)
 

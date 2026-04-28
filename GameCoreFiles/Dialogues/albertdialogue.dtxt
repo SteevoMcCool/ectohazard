@@ -16,3 +16,13 @@
 
 6 "*holds up finger guns* pew pew! now, imagine that with plasma!"
     opt1 "Okay... what do i use if for?" 5
+
+7 "Most 'ghosts' are friendly, but some may try to attack you."
+    opt1 "Oh?" 8
+
+8 "Press your LEFT TRIGGER [-] to shoot the gun."
+    opt1 "Thanks, let me try." 9
+
+9 "Great, now try pressing [2], then come back and talk to me"
+    opt1 "Ok" 0
+

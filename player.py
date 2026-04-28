@@ -8,8 +8,7 @@ class Player:
         self.camera = Camera(Ray(Vector2(32,32),0),1)
         self.controller = Controller()
         self.inventory = Inventory()
-        self.inventory.load(["PlasmaRay","Communicator"])
-        self.invSlotEquipped = 0
+        self.invSlotEquipped = self.inventory.capacity + 1 #out of bounds to start, you are holding nothing
         self.speed = 10
         self.maxHealth = 100
         self.Health = 100
@@ -45,6 +44,11 @@ class Player:
     def equipItem(self,slot):
         if self.invSlotEquipped < len(self.inventory.items):
             self.inventory.items[self.invSlotEquipped].update(self.inventory.items[self.invSlotEquipped],self.gameApp,False)
+        if slot >= len(self.inventory.items):
+            return;
+        if slot == self.invSlotEquipped:
+            self.invSlotEquipped = self.inventory.capacity + 1 #out of bounds, you are holding nothing
+            return;
         self.invSlotEquipped = slot
 
 

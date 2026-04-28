@@ -38,6 +38,9 @@ def actionKeyPressed(self,gameApp):
             approacher: the Entity|Player that approached 
                 ...
     """
+    if (self.dialogueLine == 3 and gameApp.player.invSlotEquipped == 0):
+        self.dialogueLine= 4
+
     gameApp.displayDialogueYield(self,self.dialogue.text(self.dialogueLine),self.dialogue.options(self.dialogueLine))
  
 
@@ -51,7 +54,8 @@ def chatted(self,response:int|str,gameApp):
         else:
             self.dialogueLine = nextLine
             if nextLine == 3:
-                
+                gameApp.player.inventory.load(["PlasmaRay"])
+
             gameApp.displayDialogueYield(self,self.dialogue.text(self.dialogueLine),self.dialogue.options(self.dialogueLine))
 
     
