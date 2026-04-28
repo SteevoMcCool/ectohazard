@@ -5,7 +5,7 @@ class MainMenu:
     def __init__(self, game_instance):
         self.game = game_instance
         self.menu = pygame_menu.Menu(
-            title='Main Menu',
+            title='HectoHazard',
             width=1280,
             height=720,
             theme=pygame_menu.themes.THEME_BLUE
