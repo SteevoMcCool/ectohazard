@@ -108,6 +108,9 @@ class GameApp:
             item.update(item,self)
 
         for ent in entities:
+            ent.pos.x = math.clamp(ent.pos.x, ent.basePos.x+0.05, ent.basePos.x+63.9)
+            ent.pos.y = math.clamp(ent.pos.y, ent.basePos.y+0.05, ent.basePos.y+63.9)
+
             if (ent.update):
                 ent.update(ent,self)
             if (ent.pos - self.player.camera.center.pos).magnitude() < 1.75:

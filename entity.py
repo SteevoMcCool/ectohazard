@@ -15,6 +15,7 @@ class Entity:
     # 1                     6
     # texture.png           7
     def __init__(self, filename,spawnOffset):
+        self.basePos = spawnOffset*1 #*1 for copying
         with open(filename, 'r') as f:
             line_table = f.readlines()
             length = len(line_table)
