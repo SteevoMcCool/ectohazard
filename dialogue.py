@@ -28,7 +28,6 @@ class Dialogue:
                 else:
                     if sf: self.nodes[sf.id] = sf 
                     tokens = line.split('"')
-                    print("DL:", tokens)
                     id = int(tokens[0].strip())
                     sf = Dialogue.Node(id,tokens[1],[],[])
         print(self)

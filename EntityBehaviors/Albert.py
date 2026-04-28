@@ -45,6 +45,10 @@ def actionKeyPressed(self,gameApp):
 def chatted(self,response:int|str,gameApp):
     if (response == -1):
         print("Got: -1")
+    else:
+        self.dialogueLine = self.dialogue.next(self.dialogueLine,int(response)-1)
+        gameApp.displayDialogueYield(self,self.dialogue.text(self.dialogueLine),self.dialogue.options(self.dialogueLine))
+
     
 
 

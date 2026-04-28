@@ -167,8 +167,9 @@ class GameApp:
 
         try:
             assert 1 <= (r := int(response)) <= len(options)
-            speaker.chatted(speaker,r,self)
-        except:
+            return speaker.chatted(speaker,r,self)
+        except BaseException as e:
+            print(e)
             return self.displayDialogueYield(speaker,"Please enter valid number in range.",options)
 
     def displayDialogueYield(self,speaker:Entity,text:str,options:list[str] = []):
@@ -202,8 +203,7 @@ class GameApp:
                             self.terminalWaiting = False
                             if (self.terminalWaitingFinished): 
                                 self.terminalWaitingFinished(self.terminalIn)
-                                self.terminalIn = ""
-                                self.terminalWaitingFinished = None
+  
                         else:
                             self.terminalIn +=  chr(math.clamp(e.key,0,0x10FFFF)) 
                     elif e.type == KEYUP and self.player.controller.activePresses.get(e.key,None):
