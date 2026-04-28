@@ -6,12 +6,14 @@ from areaLoader import *
 from listOfLists import ListOfLists
 from menu import MainMenu, PauseMenu
 from entity import Entity
+import math
 from inventory import * 
 class GameApp:
 
     def __init__(self):
         init()
         self.tempenties = [] 
+        self.tempGUIS = []
         self.screen = display.set_mode((1280, 720))
         display.set_caption("Ectohazard")
         self.clock = time.Clock()
@@ -76,8 +78,13 @@ class GameApp:
             )
 
 
-        #STEP2: 
-        pass
+        for GUI in self.tempGUIS:
+            self.screen.blit(
+                GUI[0],
+                GUI[1]
+            )
+
+
     def render_game(self, A, B, HORIZON):
         """Handle 3D rendering and world updates"""
         self.player.controller.step(self.dt)
@@ -108,8 +115,9 @@ class GameApp:
             item.update(item,self)
 
         for ent in entities:
-            ent.pos.x = math.clamp(ent.pos.x, ent.basePos.x+0.05, ent.basePos.x+63.9)
-            ent.pos.y = math.clamp(ent.pos.y, ent.basePos.y+0.05, ent.basePos.y+63.9)
+            if isinstance(ent,Entity):
+                ent.pos.x = math.clamp(ent.pos.x, ent.basePos.x+0.15, ent.basePos.x+63.7)
+                ent.pos.y = math.clamp(ent.pos.y, ent.basePos.y+0.15, ent.basePos.y+63.7)
 
             if (ent.update):
                 ent.update(ent,self)
@@ -171,8 +179,9 @@ class GameApp:
         else:
             idx = 0
             for option in options:
-                self.print(f"[{idx:=idx+1} {option}] ",end="")
-                self.input("Choose: ", when_done= lambda x: self.respondToSpeaker(speaker,x,options))
+                self.print(f"[{(idx:=idx+1)} {option}] ",end="")
+            self.print('\n')
+            self.input("Choose: ", when_done= lambda x: self.respondToSpeaker(speaker,x,options))
     
     def run(self):
         """Main application loop"""
@@ -196,7 +205,7 @@ class GameApp:
                                 self.terminalIn = ""
                                 self.terminalWaitingFinished = None
                         else:
-                            self.terminalIn +=  chr(e.key) 
+                            self.terminalIn +=  chr(math.clamp(e.key,0,0x10FFFF)) 
                     elif e.type == KEYUP and self.player.controller.activePresses.get(e.key,None):
                         self.player.controller.process(e.key, self.dt, "up")
                 elif self.game_running and not self.pause.menu.is_enabled():

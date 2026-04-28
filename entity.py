@@ -2,6 +2,7 @@ import os
 
 from gamepaths import *
 from pygame import * 
+from dialogue import Dialogue
 import EntityBehaviors.get
 
 class Entity:
@@ -46,9 +47,9 @@ class Entity:
                         for token in sub_tokens:
                             self.status.append(token.strip())
                     case 5:
-                        self.dialog_file = line.strip()
+                        self.dialogue = Dialogue(line.strip())
                     case 6:
-                        self.dialog_lines = line.strip()
+                        self.dialogueLine = int(line.strip())
                     case 7:
                         self.texture = image.load(os.path.join(f'{TEXTURE_PATH}', line.strip()))
                     case _:
@@ -70,8 +71,8 @@ class Entity:
         print(f"ATK = {self.atk}")
         print(f"Position = {self.pos}")
         print(f"Radius = {self.radius}")
-        print(f"Dialog file = {self.dialog_file}")
-        print(f"Dialog lines = {self.dialog_lines}")
+        print(f"Dialog file = {self.dialogue}")
+        print(f"Dialog lines = {self.dialogueLine}")
 
 
 class Actor:

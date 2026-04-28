@@ -38,7 +38,7 @@ def actionKeyPressed(self,gameApp):
             approacher: the Entity|Player that approached 
                 ...
     """
-    print("Albort")
+    gameApp.displayDialogueYield(self,self.dialogue.text(self.dialogueLine),self.dialogue.options(self.dialogueLine))
  
 
 
