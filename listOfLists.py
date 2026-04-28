@@ -4,6 +4,9 @@ class ListOfLists:
         for arg in args:
             self.lists += [arg]
             assert(type(arg) == list)
+    def addList(self,arg):
+        assert(type(arg) == list)        
+        self.lists+=[arg]
 
     def __len__(self):
         return sum(len(L) for L in self.lists)

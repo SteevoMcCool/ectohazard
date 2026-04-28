@@ -11,7 +11,7 @@ class GameApp:
 
     def __init__(self):
         init()
-
+        self.tempenties = [] 
         self.screen = display.set_mode((1280, 720))
         display.set_caption("Ectohazard")
         self.clock = time.Clock()
@@ -89,6 +89,7 @@ class GameApp:
             print("Loaded new area")
         walls = ListOfLists(area.walls for area in self.areas.loadedAreas.values())
         entities =  ListOfLists(area.entities for area in self.areas.loadedAreas.values())
+        entities.addList(self.tempenties)
         centerArea = self.areas.loadedAreas[self.areas.currentCenter]
 
         winSize = display.get_window_size()
@@ -173,7 +174,7 @@ class GameApp:
     def run(self):
         """Main application loop"""
         A, B = 2.5, 0.0001
-        HORIZON = 0.575
+        HORIZON = 0.5
 
         while self.process_running:
             events:list[event.Event] = event.get()

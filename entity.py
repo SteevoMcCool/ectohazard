@@ -71,3 +71,22 @@ class Entity:
         print(f"Radius = {self.radius}")
         print(f"Dialog file = {self.dialog_file}")
         print(f"Dialog lines = {self.dialog_lines}")
+
+
+class Actor:
+      def __init__(self,name,globalSpawnPos,textureFile,aa=(1,5),hpDefAtk=(100,10,10),radius=1):
+        self.name = name
+        self.agression = aa[0]
+        self.activity = aa[1]
+        self.hp = hpDefAtk[0]
+        self.defc = hpDefAtk[1]
+        self.atk = hpDefAtk[2]
+        self.pos =globalSpawnPos
+        self.radius = float(radius)
+        self.status = []
+        self.texture = image.load(textureFile)
+        self.behavior = {}
+        self.update = lambda s,g: None
+        self.approached = lambda s,a,g: None
+        self.actionKeyPressed = lambda s,g: None
+        self.chatted = lambda s,r,g: None

@@ -28,7 +28,7 @@ def getFile(directory:str|os.PathLike,fname:str,fileType:str):
         case "entity":
             midpart = "Entities"
         case "texture":
-            midpart = "Texture"
+            midpart = "Textures"
         case "item":
             midpart = "InventoryItems"
     fullPath = os.path.join(directory,midpart,fname)
