@@ -1,4 +1,4 @@
-def update(self,gameApp): 
+def update(self,gameApp,isEquipped=True): 
     """
         Function to be called every tick
         Parameters:

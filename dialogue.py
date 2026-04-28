@@ -33,6 +33,7 @@ class Dialogue:
         print(self)
 
     def next(self,currentState:int,optionId:int):
+        if (optionId == -1): return -1
         node = self.nodes[currentState]
         return node.optRes[optionId]
 

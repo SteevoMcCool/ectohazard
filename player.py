@@ -43,6 +43,8 @@ class Player:
 
 
     def equipItem(self,slot):
+        if self.invSlotEquipped < len(self.inventory.items):
+            self.inventory.items[self.invSlotEquipped].update(self.inventory.items[self.invSlotEquipped],self.gameApp,False)
         self.invSlotEquipped = slot
 
 

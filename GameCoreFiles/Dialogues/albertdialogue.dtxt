@@ -7,7 +7,6 @@
     
 3 "Use [1,2,3,4] to navigate your inventory. Try pressing [1], then come back and talk to me."
     opt1 "Ok" 0
-
 4 "Great! That's your Plasma Ray! You'll need that to defend yourself"
     opt1 "From what?" 5
     opt2 "How does it work?" 6
