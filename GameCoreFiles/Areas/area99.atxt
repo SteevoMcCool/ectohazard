@@ -4,3 +4,6 @@ Ground, 50 20 20
 Wall, 90 85 70, 0 0, 64 0
 Wall, 90 85 70, 0 0, 0 64
 Wall, 90 85 70, 64 64, 0 64
+Wall, 120 85 120, 50 50, 50 14
+Entity,halfappar.etxt
+Entity,mouther.etxt
