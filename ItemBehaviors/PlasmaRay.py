@@ -38,12 +38,15 @@ def update(self,gameApp,isEquipped=True):
         p = gameApp.player
         walls = ListOfLists(area.walls for area in gameApp.areas.loadedAreas.values())
         entities =  ListOfLists(area.entities for area in gameApp.areas.loadedAreas.values())
-        (wall,cp) = p.camera.center.firstContact(walls)
-        ents = p.camera.center.entityContacts(entities,  (cp-p.camera.center.pos).magnitude() if wall else math.inf )
+        wall = p.camera.center.firstContact(walls)
+        ents = p.camera.center.entityContacts(entities,  (wall[1]-p.camera.center.pos).magnitude() if wall else math.inf )
         ent = False
         if len(ents) > 0:
             ent = ents[0]
+
+        hittingEnt = False
         if wall:
+            (wall,cp) = wall
             if ent:
                 dwall = (cp-p.camera.center.pos).magnitude() 
                 if dwall <= ent[2]:
@@ -54,6 +57,7 @@ def update(self,gameApp,isEquipped=True):
                     p.camera.center.shift(ent[2]- 0.25)
                     FIRE_ENT.pos = p.camera.center.pos *1 #*1 here needed for copy
                     p.camera.center.shift(-ent[2] + 0.25)
+                    hittingEnt = True
             else:
                 dwall = (cp-p.camera.center.pos).magnitude() 
                 p.camera.center.shift(dwall- 0.25)
@@ -63,7 +67,13 @@ def update(self,gameApp,isEquipped=True):
             p.camera.center.shift(ent[2] - 0.25)
             FIRE_ENT.pos = p.camera.center.pos *1 #*1 here needed for copy
             p.camera.center.shift(-ent[2] + 0.25) 
-        print (FIRE_ENT.pos)
+            hittingEnt = True
+
+        if hittingEnt:
+            atk = gameApp.player.atk
+            defc = ent[0].defc 
+            bdmg = gameApp.dt* (DAMAGE_PER_LEVEL*LEVEL + DAMAGE_PER_LEVEL_SQUARED*LEVEL*LEVEL + BASE_DAMAGE)
+            ent[0].hp -=  bdmg * (atk+5)/(atk+defc+5)
     elif TEMPERATURE > 0:
         TEMPERATURE = max(TEMPERATURE-gameApp.dt*COOLDOWN_RATE,0)
     else:   

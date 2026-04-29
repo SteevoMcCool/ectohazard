@@ -7,6 +7,7 @@ from listOfLists import ListOfLists
 from menu import MainMenu, PauseMenu
 from entity import Entity
 import math
+from math import floor,ceil
 from inventory import * 
 class GameApp:
 
@@ -78,10 +79,22 @@ class GameApp:
             )
 
 
+        #STEP 2: Render Health GUI
+        healthperc = self.player.hp /  self.player.maxhp
+        healthpercRGB = int(255 * healthperc)
+        BASEY = winSize[1] * 6/7
+        hp = ceil(self.player.hp * 10)/10
+        self.screen.blit(self.terminalFont.render(f"HP: {hp}",True,Color(255-healthpercRGB,healthpercRGB,healthpercRGB//2)),(10,BASEY))
+        draw.rect(self.screen,Color(0,0,0),Rect(9,BASEY+26,2+winSize[0]/4,17))
+        draw.rect(self.screen,Color(255-healthpercRGB,healthpercRGB,healthpercRGB//2),Rect(10,BASEY+27,healthperc*winSize[0]/4,15))
+
+
+
+        #STEP 3: Render all temporary guis
         for GUI in self.tempGUIS:
             self.screen.blit(
-                GUI[0],
-                GUI[1]
+                GUI[0], #surface
+                GUI[1]  #position
             )
 
 

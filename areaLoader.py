@@ -58,16 +58,12 @@ class Area:
                             self.areaOffset + Vector2(*(float(coord) for coord in tokens[3].strip().split(" "))),
                             Color(*(int(c) for c  in tokens[1].strip().split(" ")))
                         )]
-                        print(self.areaOffset + Vector2(*(float(coord) for coord in tokens[2].strip().split(" "))),
-                            self.areaOffset + Vector2(*(float(coord) for coord in tokens[3].strip().split(" "))),
-                            tokens[1].strip().split(" "))
-                        print("ADDED WALL")
+
 
                     #Parse Entity property
                     case "Entity":
                         for fname in tokens[1:]:
                             self.entities.append(Entity(getFile("_",fname,"entity"),self.areaOffset))
-                            print("Added ENTITY")
                     case "SAVEABLE":
                         self.saveable = True
                     case _:
@@ -98,17 +94,18 @@ class AreaLoader:
 
     def loadAround(self,center:int): 
         #loads all the areas in a 3x3 grid, with the specified area being in the center
-        if center == self.currentCenter:
+        if (center:=int(center)) == self.currentCenter:
             return 0
         above = int(max(center - MAPAREAWIDTH,0))
         below = int(center + MAPAREAWIDTH )
-        left = int(max((center - 1)% MAPAREAWIDTH,0) ) 
+        left = int(max((center - 1),0)% MAPAREAWIDTH) 
+        cmod = center  % MAPAREAWIDTH
         right = int(min( (center + 1)  % MAPAREAWIDTH,MAPAREAWIDTH-1))
         numLoads = 0
         loadedIds = []
         print(above,below,left,right)
         for row in range(above,below+1,32):
-            for col in range(left-left,right+1-left):
+            for col in range(left-cmod,right+1-cmod):
                 id= row + col 
                 loadedIds += [id]
                 if  not self.loadedAreas.get(id):
@@ -117,9 +114,14 @@ class AreaLoader:
                         self.loadedAreas[id] = area
                         numLoads += 1
         if (numLoads > 0): #then we unload old areas
-            for id in self.loadedAreas:
-                if id not in loadedIds:
-                    del self.loadedAreas[id] 
+            deleted = True 
+            while deleted:
+                deleted  = False
+                for id in self.loadedAreas:
+                    if id not in loadedIds:
+                        del self.loadedAreas[id] 
+                        deleted = True
+                        break
         self.currentCenter = center
         return numLoads # for debugging reasons, return number of newly loaded areas
 

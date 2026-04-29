@@ -49,3 +49,10 @@
 
 15 "Lastly, your SKECTO-LOG (Logbook). Press [3], then come back and talk to me."
     opt1 "Ok" 0
+
+
+16 "Use LEFT TRIGGER[-] to add an entry of a nearby ghost. Use RIGHT TRIGGER[+] to view your entries."
+    opt1 "Thanks, I'm ready" 17
+
+17 "Good Luck out there! Go to the pink TELEPORT PAD to go to your first mission."
+    opt1 "Thanks." 0

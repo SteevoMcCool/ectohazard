@@ -60,7 +60,6 @@ class Entity:
             self.approached = self.behavior.approached
             self.actionKeyPressed = self.behavior.actionKeyPressed
             self.chatted = self.behavior.chatted
-        self.log()
 
     def log(self):
         print(f"Name = {self.name}")

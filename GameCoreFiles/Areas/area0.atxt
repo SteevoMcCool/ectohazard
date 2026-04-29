@@ -7,3 +7,4 @@ Wall, 150 150 150, 64 0, 64 64
 Wall, 150 150 150, 64 64, 0 64
 Wall, 150 150 150, 0 64, 0 0
 Entity,albert.etxt
+Entity,portal.etxt

@@ -8,5 +8,7 @@ Wall, 90 85 70, 64 64, 0 64
 Wall, 80 80 60, 0 10, 30 30 
 Wall, 80 80 60, 40 20, 30 30 
 Wall, 80 80 60, 40 20, 40 40
-Wall, 80 80 60, 40 40, 64 40 
 Wall, 80 80 60, 64 64, 45 40
+Wall, 90 85 70, 0 64, 0 20
+Entity,erdon.etxt
+Entity,peeker.etxt

@@ -1,6 +1,5 @@
 from math import *
 from pygame import *
-from entity import *
 
 class Wall:
     def __init__(self, p1, p2,color = Color(127,127,127) ):
@@ -107,7 +106,7 @@ class Ray:
                     closest_hit = (wall, hit)
         return closest_hit if closest_hit else False
     
-    def entityContacts(self,entities:list[Entity],maxDistance=inf):
+    def entityContacts(self,entities,maxDistance=inf):
         "Returns a list of quadro of entity, contactpos, dist, texturepos for all entities hit by the ray before the distance"
         hits = []
         for entity in entities:
@@ -132,7 +131,7 @@ class Camera:
         self.fov = fov 
         self.ray_count = ray_count # Number of rays to cast in the FOV
 
-    def view(self, walls: list[Wall], entities: list[Entity]):
+    def view(self, walls: list[Wall], entities):
         """
         Shoots out rays across the FOV.
         Returns a list of (distance, wall) tuples for the 3D projection engine.

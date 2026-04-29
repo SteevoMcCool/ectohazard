@@ -42,6 +42,8 @@ def actionKeyPressed(self,gameApp):
         self.dialogueLine= 4
     elif (self.dialogueLine == 9 and gameApp.player.invSlotEquipped == 1):
         self.dialogueLine=10
+    elif (self.dialogueLine == 15 and gameApp.player.invSlotEquipped == 2):
+        self.dialogueLine = 16
 
     gameApp.displayDialogueYield(self,self.dialogue.text(self.dialogueLine),self.dialogue.options(self.dialogueLine))
  

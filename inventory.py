@@ -56,7 +56,7 @@ class Inventory:
     ALPHA = 180
 
     def __init__(self, capacity=12):
-        self.items = []
+        self.items:list[Item] = []
         self.capacity = capacity
         self.is_open = False
 
@@ -82,6 +82,14 @@ class Inventory:
 
         self.items.append(entity)
         return True
+
+    def has(self,itemName:str):
+        for item in self.items:
+            if item.name == itemName:
+                return item
+        return None
+
+
 
     def draw_ui(self, screen):
         if not self.is_open:

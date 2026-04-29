@@ -5,18 +5,22 @@ from listOfLists import ListOfLists
 
 class Player:
     def __init__(self,gameApp):
-        self.camera = Camera(Ray(Vector2(260,200),0),1)
+        # spawn at 260, 200 for Tomsfhire   and 32, 32 for regular zone
+        self.camera = Camera(Ray(Vector2(32,32),0),1)
         self.controller = Controller()
         self.inventory = Inventory()
         self.invSlotEquipped = self.inventory.capacity + 1 #out of bounds to start, you are holding nothing
         self.speed = 10
-        self.maxHealth = 100
-        self.Health = 100
+        self.maxhp = 100
+        self.hp = 100
+        self.atk = 10 
+        self.defc = 10
         self.gameApp = gameApp
         self.controller.addBind(K_w,whileDown= lambda dt: self.move(dt*self.speed* self.camera.center.lookVector()))
         self.controller.addBind(K_s,whileDown= lambda dt: self.move(-dt*self.speed* self.camera.center.lookVector()))
-        self.controller.addBind(K_d,whileDown= lambda dt: self.turn(0.85*  dt))
-        self.controller.addBind(K_a,whileDown= lambda dt: self.turn(0.85* -dt))
+        self.controller.addBind(K_LSHIFT)
+        self.controller.addBind(K_d,whileDown= lambda dt: self.turn(0.95*  dt) if self.controller.activePresses.get(K_LSHIFT) else self.turn(2.75*dt) )
+        self.controller.addBind(K_a,whileDown= lambda dt: self.turn(0.95* -dt) if self.controller.activePresses.get(K_LSHIFT) else self.turn(2.75*-dt))
 
         #binds "action" to both "e" and "f"
         self.controller.addBind(K_e,up=lambda t: self.actionKeyPressed() if t < 0.120 else 0)
