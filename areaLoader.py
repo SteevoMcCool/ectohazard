@@ -20,6 +20,7 @@ DEFAULTGROUNDCOLOR = Color(100,220,100)
 
 class Area:
     def __init__(self,id):
+        print("LOADING...",id)
         self.walls = []
         self.entities = []
         self.id = id
@@ -29,9 +30,9 @@ class Area:
         self.ground = DEFAULTGROUNDCOLOR
         self.entities = []
         filename = f"{AREA_PATH}/area{id}.atxt"
+        self.saveable = False
 
         self.areaOffset = Vector2(AREAINNERSIZE[0] *  (id%32)  ,     AREAINNERSIZE[1]*  (id//32) )
-        print("AO: " , self.areaOffset)
         self.uninitialized = False
         if not os.path.exists(filename):
             self.uninitialized = True
@@ -67,6 +68,8 @@ class Area:
                         for fname in tokens[1:]:
                             self.entities.append(Entity(getFile("_",fname,"entity"),self.areaOffset))
                             print("Added ENTITY")
+                    case "SAVEABLE":
+                        self.saveable = True
                     case _:
                         if len(tokens) > 0:
                             if (tokens[0][0] == "#"):
@@ -99,13 +102,13 @@ class AreaLoader:
             return 0
         above = int(max(center - MAPAREAWIDTH,0))
         below = int(center + MAPAREAWIDTH )
-        left = int(max(center - 1,0) % MAPAREAWIDTH) 
-        right = int(min(center + 1,MAPAREAWIDTH-1) % MAPAREAWIDTH)
+        left = int(max((center - 1)% MAPAREAWIDTH,0) ) 
+        right = int(min( (center + 1)  % MAPAREAWIDTH,MAPAREAWIDTH-1))
         numLoads = 0
-
         loadedIds = []
+        print(above,below,left,right)
         for row in range(above,below+1,32):
-            for col in range(left,right+1):
+            for col in range(left-left,right+1-left):
                 id= row + col 
                 loadedIds += [id]
                 if  not self.loadedAreas.get(id):

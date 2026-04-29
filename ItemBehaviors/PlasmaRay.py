@@ -97,7 +97,7 @@ def update(self,gameApp,isEquipped=True):
             GUIS["overHeatedGui"] = None
     else:
         for k,v in GUIS.items():
-            gameApp.tempGUIS.remove(v)
+            if v in gameApp.tempGUIS: gameApp.tempGUIS.remove(v)
             GUIS[k] = None  
 
 

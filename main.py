@@ -89,7 +89,10 @@ class GameApp:
         """Handle 3D rendering and world updates"""
         self.player.controller.step(self.dt)
 
-        aX = self.player.camera.center.pos.x // AREAINNERSIZE[0]
+
+        # offset = Vector2(AREAINNERSIZE[0] *  (id%32)  ,     AREAINNERSIZE[1]*  (id//32) )
+        
+        aX = self.player.camera.center.pos.x // AREAINNERSIZE[0]  
         aY = self.player.camera.center.pos.y // AREAINNERSIZE[1]
         self.player.area = aY * 32 + aX
         if self.areas.loadAround(self.player.area):

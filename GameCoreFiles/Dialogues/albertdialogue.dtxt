@@ -11,13 +11,13 @@
     opt1 "From what?" 5
     opt2 "How does it work?" 6
 
-5 "Right... I suppose you don't exactly know what you're doing here."
-
+5 "Right... I suppose you don't exactly know what you're doing here.\nMost 'ghosts' are friendly, but some may try to attack you."
+        opt1 "Oh?" 8
 
 6 "*holds up finger guns* pew pew! now, imagine that with plasma!"
     opt1 "Okay... what do i use if for?" 5
 
-7 "Most 'ghosts' are friendly, but some may try to attack you."
+7 "..."
     opt1 "Oh?" 8
 
 8 "Press your LEFT TRIGGER [-] to shoot the gun."
@@ -26,3 +26,26 @@
 9 "Great, now try pressing [2], then come back and talk to me"
     opt1 "Ok" 0
 
+10 "Fantastic! That is your Paranormal Energy Detector\nIt is able to gauge the amount of ghost activity nearby."
+    opt1 "What else can it do?" 11
+    opt2 "How can i use it?" 11
+
+11 "Great question! \n Use LEFT TRIGGER [-] to wear your goggles, and use \n RIGHT TRIGGER [+] to speak to nearby ghosts 
+    opt1 "Tell me more about LEFT TRIGGER" 12
+    opt2 "Tell me more abour RIGHT TRIGGER" 13
+    opt3 "Understood." 15
+
+12 "Your GOGGLES will let you see invisible ghosts, and other activity\n that you may not otherwise see"
+    opt 1 "That's sounds useful." 14
+
+13 "Sometimes, ghosts may try to communicate with you. The communicator allows\nfor telepathic conversation that's instantaneous! I've already got us connected!" 
+    opt1 "Ghosts can talk?" 14
+    opt2 "You mean we're connected telepathically right now?" 14
+
+14 "Indeed. Anything else?"
+    opt1 "Tell me more about LEFT TRIGGER" 12
+    opt2 "Tell me more abour RIGHT TRIGGER" 13
+    opt3 "Nope, I understand." 15
+
+15 "Lastly, your SKECTO-LOG (Logbook). Press [3], then come back and talk to me."
+    opt1 "Ok" 0

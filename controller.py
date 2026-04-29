@@ -49,7 +49,7 @@ class Controller:
                     time,  
                     bind.get("whileDown")
                 ]
-            elif action == 'up':
+            elif action == 'up'  and press in  self.activePresses:
                 # Execute the 'up' callback with the calculated duration 't'
                 if bind.get("up"):
                     bind["up"](time - self.activePresses[press][0])

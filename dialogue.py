@@ -29,9 +29,8 @@ class Dialogue:
                     if sf: self.nodes[sf.id] = sf 
                     tokens = line.split('"')
                     id = int(tokens[0].strip())
-                    sf = Dialogue.Node(id,tokens[1],[],[])
-        print(self)
-
+                    sf = Dialogue.Node(id,tokens[1].replace("\\n","\n"),[],[])
+        if sf: self.nodes[sf.id] = sf 
     def next(self,currentState:int,optionId:int):
         if (optionId == -1): return -1
         node = self.nodes[currentState]

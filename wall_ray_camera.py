@@ -77,6 +77,9 @@ class Ray:
 
         if not (min(x1, x2) <= X <= max(x1, x2)):
             return False
+        if not (min(y1,y2) <= Y <= max(y1,y2)):
+            return False #needed for "vertical" walls
+
 
         if abs(ray_dx) > 1e-10:
             t = (X - cx) / ray_dx

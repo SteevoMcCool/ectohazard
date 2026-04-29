@@ -5,7 +5,7 @@ from listOfLists import ListOfLists
 
 class Player:
     def __init__(self,gameApp):
-        self.camera = Camera(Ray(Vector2(32,32),0),1)
+        self.camera = Camera(Ray(Vector2(260,200),0),1)
         self.controller = Controller()
         self.inventory = Inventory()
         self.invSlotEquipped = self.inventory.capacity + 1 #out of bounds to start, you are holding nothing
