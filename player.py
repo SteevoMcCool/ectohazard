@@ -5,10 +5,11 @@ from listOfLists import ListOfLists
 
 class Player:
     def __init__(self,gameApp):
-        # spawn at 260, 200 for Tomsfhire   and 32, 32 for regular zone
-        self.camera = Camera(Ray(Vector2(32,32),0),1)
+        # spawn at 260, 200 for Tomsfhire   and 32, 32 for regular zone . 520, 400 for Yellowgrave
+        self.camera = Camera(Ray(Vector2(520,400),0),1)
         self.controller = Controller()
         self.inventory = Inventory()
+        self.inventory.load(["PlasmaRay","Detector","SkectoLog"])
         self.invSlotEquipped = self.inventory.capacity + 1 #out of bounds to start, you are holding nothing
         self.speed = 10
         self.maxhp = 100
